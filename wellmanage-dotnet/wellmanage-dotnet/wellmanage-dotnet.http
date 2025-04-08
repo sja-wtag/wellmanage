@@ -1,0 +1,6 @@
+@wellmanage_dotnet_HostAddress = http://localhost:5153
+
+GET {{wellmanage_dotnet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
