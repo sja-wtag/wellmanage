@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage-dotnet", "wellmanage-dotnet\wellmanage-dotnet.csproj", "{9110F24E-7433-4F49-9BE9-8EA36DDE49F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.api", "wellmanage.api\wellmanage.api.csproj", "{9110F24E-7433-4F49-9BE9-8EA36DDE49F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.domain", "wellmanage.domain\wellmanage.domain.csproj", "{3943738D-6C54-497C-AB85-769D62D41596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.application", "wellmanage.application\wellmanage.application.csproj", "{54866B3D-8F83-4D66-905F-B40D55419FD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.dataaccess", "wellmanage.dataaccess\wellmanage.dataaccess.csproj", "{151C3297-2BA2-4412-8BBF-837051275785}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +18,17 @@ Global
 		{9110F24E-7433-4F49-9BE9-8EA36DDE49F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9110F24E-7433-4F49-9BE9-8EA36DDE49F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9110F24E-7433-4F49-9BE9-8EA36DDE49F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3943738D-6C54-497C-AB85-769D62D41596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3943738D-6C54-497C-AB85-769D62D41596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3943738D-6C54-497C-AB85-769D62D41596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3943738D-6C54-497C-AB85-769D62D41596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54866B3D-8F83-4D66-905F-B40D55419FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54866B3D-8F83-4D66-905F-B40D55419FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54866B3D-8F83-4D66-905F-B40D55419FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54866B3D-8F83-4D66-905F-B40D55419FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151C3297-2BA2-4412-8BBF-837051275785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151C3297-2BA2-4412-8BBF-837051275785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151C3297-2BA2-4412-8BBF-837051275785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151C3297-2BA2-4412-8BBF-837051275785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
