@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace wellmanage_dotnet.Controllers;
+namespace wellmanage.api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

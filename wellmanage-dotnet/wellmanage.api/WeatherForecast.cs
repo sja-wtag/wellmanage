@@ -1,4 +1,4 @@
-namespace wellmanage_dotnet;
+namespace wellmanage.api;
 
 public class WeatherForecast
 {
