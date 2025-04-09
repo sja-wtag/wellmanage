@@ -7,4 +7,8 @@
         <RootNamespace>wellmanage.data</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\wellmanage.domain\wellmanage.domain.csproj" />
+    </ItemGroup>
+
 </Project>

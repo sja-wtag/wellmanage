@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\wellmanage.dataaccess\wellmanage.dataaccess.csproj" />
+    </ItemGroup>
+
 </Project>
