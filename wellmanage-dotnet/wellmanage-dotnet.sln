@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.api", "wellmanage.api\wellmanage.api.csproj", "{9110F24E-7433-4F49-9BE9-8EA36DDE49F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.domain", "wellmanage.domain\wellmanage.domain.csproj", "{3943738D-6C54-497C-AB85-769D62D41596}"
@@ -9,6 +12,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.dataaccess", "wellmanage.dataaccess\wellmanage.dataaccess.csproj", "{151C3297-2BA2-4412-8BBF-837051275785}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.shared", "wellmanage.shared\wellmanage.shared.csproj", "{9FD55890-C0F4-47FF-9AEA-338A7A570A2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.clientapp", "wellmanage.clientapp\wellmanage.clientapp\wellmanage.clientapp.csproj", "{F12A19C4-48E8-49B9-870E-2CA0F92CEA81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.clientapp.Shared", "wellmanage.clientapp\wellmanage.clientapp.Shared\wellmanage.clientapp.Shared.csproj", "{423147FC-ACAA-429E-AC87-3108590A47E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.clientapp.Web", "wellmanage.clientapp\wellmanage.clientapp.Web\wellmanage.clientapp.Web.csproj", "{5654CB52-D3FE-4EAD-B856-27A9AEA0E316}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.clientapp.Web.Client", "wellmanage.clientapp\wellmanage.clientapp.Web.Client\wellmanage.clientapp.Web.Client.csproj", "{78BE665F-DA1F-41E7-B234-875969DD2DDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +47,24 @@ Global
 		{9FD55890-C0F4-47FF-9AEA-338A7A570A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FD55890-C0F4-47FF-9AEA-338A7A570A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FD55890-C0F4-47FF-9AEA-338A7A570A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12A19C4-48E8-49B9-870E-2CA0F92CEA81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12A19C4-48E8-49B9-870E-2CA0F92CEA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12A19C4-48E8-49B9-870E-2CA0F92CEA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12A19C4-48E8-49B9-870E-2CA0F92CEA81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{423147FC-ACAA-429E-AC87-3108590A47E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423147FC-ACAA-429E-AC87-3108590A47E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423147FC-ACAA-429E-AC87-3108590A47E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423147FC-ACAA-429E-AC87-3108590A47E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5654CB52-D3FE-4EAD-B856-27A9AEA0E316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5654CB52-D3FE-4EAD-B856-27A9AEA0E316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5654CB52-D3FE-4EAD-B856-27A9AEA0E316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5654CB52-D3FE-4EAD-B856-27A9AEA0E316}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
