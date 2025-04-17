@@ -10,4 +10,8 @@
       <ProjectReference Include="..\wellmanage.dataaccess\wellmanage.dataaccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MailKit" Version="4.11.0" />
+    </ItemGroup>
+
 </Project>
