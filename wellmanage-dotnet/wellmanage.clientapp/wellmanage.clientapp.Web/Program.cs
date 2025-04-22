@@ -1,3 +1,4 @@
+using MudBlazor.Services;
 using wellmanage.clientapp.Shared.Services;
 using wellmanage.clientapp.Web.Components;
 using wellmanage.clientapp.Web.Services;
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddMudServices();
 
 // Add device-specific services used by the wellmanage.clientapp.Shared project
 builder.Services.AddSingleton<IFormFactor, FormFactor>();
