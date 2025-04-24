@@ -28,16 +28,25 @@ namespace wellmanage.clientapp.Shared.Services
 
         public async Task<AuthenticatedUser?> Login(LoginRequest request)
         {
-            var response = await _http.PostAsJsonAsync("api/v1/auth/login", request);
-            var result = await response.Content.ReadFromJsonAsync<ApiResponse<AuthenticatedUser>>();
-            var authToken = result?.ResponseData?.AuthenticationToken;
-            if (string.IsNullOrEmpty(authToken))
+            try
             {
-                return null;
+                var response = await _http.PostAsJsonAsync("api/v1/auth/login", request);
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<AuthenticatedUser>>();
+                var authToken = result?.ResponseData?.AuthenticationToken;
+                if (string.IsNullOrEmpty(authToken))
+                {
+                    return null;
+                }
+
+                await _authStateProvider.MarkUserAsAuthenticated(result?.ResponseData);
+                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", authToken);
+                return result.ResponseData;
             }
-            await _authStateProvider.MarkUserAsAuthenticated(result?.ResponseData);
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", authToken);
-            return result.ResponseData;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return null;
         }
 
         public async Task Register(RegistrationRequest request)
