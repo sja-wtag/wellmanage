@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using wellmanage.api.Enums;
+using wellmanage.shared.Enums;
 
-namespace wellmanage.api.Models;
+
+namespace wellmanage.shared.Models;
 
 public class LoginRequest
 {

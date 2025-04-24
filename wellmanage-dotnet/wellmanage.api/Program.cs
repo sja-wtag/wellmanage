@@ -35,6 +35,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+#region CORS
+
+app.UseCors(builder =>
+{
+    builder.WithOrigins("https://localhost:7107")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
+});
+
+#endregion
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
