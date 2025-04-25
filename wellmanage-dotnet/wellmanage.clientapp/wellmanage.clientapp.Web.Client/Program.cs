@@ -17,6 +17,7 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri("https://localhost:7270/api")
 });
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<IAppStorage, WebAppStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddAuthorizationCore();
 
