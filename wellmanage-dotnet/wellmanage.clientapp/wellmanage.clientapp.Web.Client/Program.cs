@@ -5,6 +5,8 @@ using MudBlazor.Services;
 using wellmanage.clientapp.Shared.Interfaces;
 using wellmanage.clientapp.Shared.Services;
 using wellmanage.clientapp.Web.Client.Services;
+using wellmanage.clientapp.Web.Client.Services.Storage;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
