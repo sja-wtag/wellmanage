@@ -7,9 +7,11 @@ using wellmanage.domain.Entity;
 
 namespace wellmanage.data.Interfaces
 {
-    internal interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
-        public Task MarkCheckIn(int userId);
-        public Task MarkCheckOut(int userId);
+        public Task MarkCheckIn(long userId);
+        public Task MarkCheckOut(long userId);
+        Task<bool> IsAlreadyCheckedIn(long userId);
+        Task<(bool IsAlreadyCheckedIn, bool IsAlreadyCheckedOut)> CheckAttendanceStatus(long userId);
     }
 }

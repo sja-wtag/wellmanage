@@ -10,7 +10,7 @@ using wellmanage.domain.Entity;
 
 namespace wellmanage.data.Repositories
 {
-    internal class UserRepository : GenericRepository<User>, IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private readonly DataContext _dataContext;
         public UserRepository(DataContext context) : base(context)
@@ -18,7 +18,37 @@ namespace wellmanage.data.Repositories
             _dataContext = context;
         }
 
-        public async Task MarkCheckIn(int userId)
+        public async Task<bool> IsAlreadyCheckedIn(long userId)
+        {
+            return await _dataContext.Attendances.OrderByDescending(item => item.Id)
+                .AnyAsync(item => item.UserId == userId && item.CheckInTime.Date == DateTime.UtcNow.Date && item.CheckOutTime == null);
+        }
+
+        public async Task<bool> IsAlreadyCheckedOut(long userId)
+        {
+            return await _dataContext.Attendances.OrderByDescending(item => item.Id)
+                .AnyAsync(item => item.UserId == userId && item.CheckInTime.Date == DateTime.UtcNow.Date && item.CheckOutTime == DateTime.UtcNow.Date);
+        }
+
+        public async Task<(bool IsAlreadyCheckedIn, bool IsAlreadyCheckedOut)> CheckAttendanceStatus(long userId)
+        {
+            var attendanceStatus = await _dataContext.Attendances
+                .Where(item => item.UserId == userId && item.CheckInTime.Date == DateTime.UtcNow.Date)
+                .OrderByDescending(item => item.Id)
+                .FirstOrDefaultAsync();
+
+            if (attendanceStatus == null)
+            {
+                return (false, false);
+            }
+
+            bool isAlreadyCheckedIn = attendanceStatus.CheckOutTime == null;
+            bool isAlreadyCheckedOut = attendanceStatus.CheckOutTime?.Date == DateTime.UtcNow.Date;
+
+            return (isAlreadyCheckedIn, isAlreadyCheckedOut);
+        }
+
+        public async Task MarkCheckIn(long userId)
         {
             var attendance = new Attendance
             {
@@ -27,10 +57,9 @@ namespace wellmanage.data.Repositories
             };
 
             _dataContext.Attendances.Add(attendance);
-            await _dataContext.SaveChangesAsync();
         }
 
-        public async Task MarkCheckOut(int userId)
+        public async Task MarkCheckOut(long userId)
         {
             var attendance = await _dataContext.Attendances
                 .Where(a => a.UserId == userId && a.CheckOutTime == null)
@@ -40,7 +69,6 @@ namespace wellmanage.data.Repositories
             if (attendance != null)
             {
                 attendance.CheckOutTime = DateTime.UtcNow;
-                await _dataContext.SaveChangesAsync();
             }
         }
 
