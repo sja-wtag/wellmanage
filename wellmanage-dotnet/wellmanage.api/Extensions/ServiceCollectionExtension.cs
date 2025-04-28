@@ -8,6 +8,8 @@ using wellmanage.data.Data;
 using wellmanage.domain.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using wellmanage.application.Models;
+using wellmanage.data.Interfaces;
+using wellmanage.data.Repositories;
 
 namespace wellmanage.api.Extensions;
 
@@ -67,5 +69,12 @@ public static class ServiceCollectionExtensions
         var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
         services.AddSingleton(emailConfig);
         services.AddScoped<IEmailService, EmailService>();
+    }
+
+    public static void AddOtherServicesWithRepositories(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }
