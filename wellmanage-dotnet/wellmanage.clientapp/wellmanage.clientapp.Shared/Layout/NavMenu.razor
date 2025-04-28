@@ -27,7 +27,14 @@
         </div>
 
         <div class="nav-item px-3">
-            <button class="btn btn-danger mt-2 ml-4">Check Out</button>
+            @if (currentAttendenceStatus.IsAlreadyCheckedIn)
+            {
+                <button class="btn btn-danger mt-2 ml-4" @onclick="CheckOut">Check Out</button>
+            }
+            else
+            {
+                <button class="btn btn-success mt-2 ml-4" @onclick="CheckIn">Check In</button>
+            }
         </div>
     </nav>
 </div>
