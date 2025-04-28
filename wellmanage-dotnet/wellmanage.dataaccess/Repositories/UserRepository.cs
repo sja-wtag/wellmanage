@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using wellmanage.data.Data;
 using wellmanage.data.Interfaces;
 using wellmanage.domain.Entity;
+using wellmanage.shared.Models;
 
 namespace wellmanage.data.Repositories
 {
@@ -46,6 +47,22 @@ namespace wellmanage.data.Repositories
             bool isAlreadyCheckedOut = attendanceStatus.CheckOutTime?.Date == DateTime.UtcNow.Date;
 
             return (isAlreadyCheckedIn, isAlreadyCheckedOut);
+        }
+
+        public async Task<AttendanceStatus> GetAttendanceStatus(long userId)
+        {
+            var attendance = await _dataContext.Attendances
+                .Where(item => item.UserId == userId && item.CheckInTime.Date == DateTime.UtcNow.Date)
+                .OrderByDescending(item => item.Id)
+                .FirstOrDefaultAsync();
+
+            var attendenceDetails = new AttendanceStatus()
+            {
+                LastCheckInAt = attendance != null ? attendance.CheckInTime : null,
+                LastCheckOutAt = attendance != null ? attendance.CheckOutTime : null
+            };
+
+            return attendenceDetails;
         }
 
         public async Task MarkCheckIn(long userId)

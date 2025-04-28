@@ -58,4 +58,10 @@ public class UserService : IUserService
         return response;
     }
 
+    public async Task<AttendanceStatus> GetAttendenceStatus(long userId)
+    {
+        var status = await _userRepository.GetAttendanceStatus(userId);
+        return status;
+    }
+
 }
