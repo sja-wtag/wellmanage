@@ -70,7 +70,7 @@ namespace wellmanage_dotnet.Controllers
 
         
         [Authorize]
-        [HttpPost("attendence-status")]
+        [HttpGet("attendence-status")]
         public async Task<IActionResult> GetAttendenceStatus()
         {
             try
