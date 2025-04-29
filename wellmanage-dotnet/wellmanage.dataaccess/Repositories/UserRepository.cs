@@ -65,7 +65,7 @@ namespace wellmanage.data.Repositories
             return attendenceDetails;
         }
 
-        public async Task MarkCheckIn(long userId)
+        public async Task<AttendanceStatus> MarkCheckIn(long userId)
         {
             var attendance = new Attendance
             {
@@ -74,9 +74,14 @@ namespace wellmanage.data.Repositories
             };
 
             _dataContext.Attendances.Add(attendance);
+
+            return new AttendanceStatus()
+            {
+                LastCheckInAt = attendance.CheckInTime
+            };
         }
 
-        public async Task MarkCheckOut(long userId)
+        public async Task<AttendanceStatus> MarkCheckOut(long userId)
         {
             var attendance = await _dataContext.Attendances
                 .Where(a => a.UserId == userId && a.CheckOutTime == null)
@@ -87,8 +92,11 @@ namespace wellmanage.data.Repositories
             {
                 attendance.CheckOutTime = DateTime.UtcNow;
             }
+            return new AttendanceStatus()
+            {
+                LastCheckInAt = attendance?.CheckInTime,
+                LastCheckOutAt = attendance?.CheckOutTime
+            };
         }
-
-
     }
 }
