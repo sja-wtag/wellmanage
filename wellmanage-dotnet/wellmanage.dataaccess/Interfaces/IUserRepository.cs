@@ -15,5 +15,6 @@ namespace wellmanage.data.Interfaces
         Task<bool> IsAlreadyCheckedIn(long userId);
         Task<(bool IsAlreadyCheckedIn, bool IsAlreadyCheckedOut)> CheckAttendanceStatus(long userId);
         Task<AttendanceStatus> GetAttendanceStatus(long userId);
+        Task<List<Attendance>> GetAttendanceSummary(long userId);
     }
 }
