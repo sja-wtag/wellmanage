@@ -14,10 +14,11 @@ namespace wellmanage.clientapp.Shared.Services
     {
         private readonly HttpClient _http;
         public event Action<AttendanceStatus> OnAttendenceChanged;
-
-        public AttendenceService(HttpClient http)
+        private readonly JwtAuthStateProvider _authStateProvider;
+        public AttendenceService(HttpClient http, JwtAuthStateProvider authStateProvider)
         {
             _http = http;
+            _authStateProvider = authStateProvider;
         }
 
         public async Task<AttendanceStatus> GetAttendenceStatus()
@@ -44,6 +45,14 @@ namespace wellmanage.clientapp.Shared.Services
             var attendence = result?.ResponseData;
             OnAttendenceChanged?.Invoke(attendence);
             return attendence;
+        }
+
+        public async Task<List<AttendanceResponse>> GetAttendances()
+        {
+            var user = await _authStateProvider.GetAuthenticatedUser();
+            var response = await _http.GetAsync($"api/v1/user/{user.Id}/attendances");
+            var result = await response.Content.ReadFromJsonAsync<List<AttendanceResponse>>();
+            return result;
         }
     }
 }

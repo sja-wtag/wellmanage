@@ -1,0 +1,17 @@
+@page "/attendence-summary"
+<h3>AttendenceSummary</h3>
+
+<MudTable Items="@_attendanceResponses" Hover="true" Breakpoint="Breakpoint.Sm" Loading="true" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Serial</MudTh>
+        <MudTh>Check In</MudTh>
+        <MudTh>Check Out</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.Id</MudTd>
+        <MudTd DataLabel="Sign">@context.CheckInTime.ToLocalTime().ToString("f")</MudTd>
+        <MudTd DataLabel="Name">@context.CheckOutTime?.ToLocalTime().ToString("f")</MudTd>
+    </RowTemplate>
+</MudTable>
+
+
