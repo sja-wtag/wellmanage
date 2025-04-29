@@ -87,12 +87,12 @@ namespace wellmanage_dotnet.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}/attendance-summary")]
-        public async Task<IActionResult> GetAttendenceSummary(long id)
+        [HttpGet("{id}/attendances")]
+        public async Task<IActionResult> GetAttendences(long id)
         {
             try
             {
-                var response = await _userService.GetAttendenceSummary(id);
+                var response = await _userService.GetAttendences(id);
                 return Ok(response);
             }
             catch (Exception ex)
