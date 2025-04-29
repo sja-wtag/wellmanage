@@ -98,5 +98,11 @@ namespace wellmanage.data.Repositories
                 LastCheckOutAt = attendance?.CheckOutTime
             };
         }
+
+        public async Task<List<Attendance>> GetAttendanceSummary(long userId)
+        {
+            var attendances = await _dataContext.Attendances.Where(attendence=> attendence.UserId == userId).OrderBy(attendence=> attendence.Id).ToListAsync();
+            return attendances;
+        }
     }
 }

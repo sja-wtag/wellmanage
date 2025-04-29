@@ -1,5 +1,6 @@
 using wellmanage.application.Interfaces;
 using wellmanage.data.Interfaces;
+using wellmanage.domain.Entity;
 using wellmanage.shared.Models;
 
 namespace wellmanage.application.Services;
@@ -60,6 +61,12 @@ public class UserService : IUserService
     {
         var status = await _userRepository.GetAttendanceStatus(userId);
         return status;
+    }
+
+    public async Task<List<Attendance>> GetAttendenceSummary(long userId)
+    {
+        var attendanceSummary = await _userRepository.GetAttendanceSummary(userId);
+        return attendanceSummary;
     }
 
 }

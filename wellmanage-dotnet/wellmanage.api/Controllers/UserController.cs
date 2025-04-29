@@ -85,6 +85,22 @@ namespace wellmanage_dotnet.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [Authorize]
+        [HttpGet("{id}/attendance-summary")]
+        public async Task<IActionResult> GetAttendenceSummary(long id)
+        {
+            try
+            {
+                var response = await _userService.GetAttendenceSummary(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
 
