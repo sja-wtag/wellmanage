@@ -4,7 +4,7 @@ namespace wellmanage.application.Interfaces;
 
 public interface IUserService
 {
-    Task<BaseResponse> MarkUserCheckIn(long userId);
-    Task<BaseResponse> MarkUserCheckOut(long userId);
+    Task<ServiceResponse<AttendanceStatus>> MarkUserCheckIn(long userId);
+    Task<ServiceResponse<AttendanceStatus>> MarkUserCheckOut(long userId);
     Task<AttendanceStatus> GetAttendenceStatus(long userId);
 }

@@ -13,9 +13,9 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task<BaseResponse> MarkUserCheckIn(long userId)
+    public async Task<ServiceResponse<AttendanceStatus>> MarkUserCheckIn(long userId)
     {
-        var response = new BaseResponse();
+        var response = new ServiceResponse<AttendanceStatus>();
         var isAlreadyCheckedIn = await _userRepository.IsAlreadyCheckedIn(userId);
         if (isAlreadyCheckedIn)
         {
@@ -26,14 +26,14 @@ public class UserService : IUserService
             };
             return response;
         }
-        await _userRepository.MarkCheckIn(userId);
+        response.ResponseData = await _userRepository.MarkCheckIn(userId);
         await _unitOfWork.SaveChangesAsync();
         return response;
     }
 
-    public async Task<BaseResponse> MarkUserCheckOut(long userId)
+    public async Task<ServiceResponse<AttendanceStatus>> MarkUserCheckOut(long userId)
     {
-        var response = new BaseResponse();
+        var response = new ServiceResponse<AttendanceStatus>();
 
         var (isAlreadyCheckedIn, isAlreadyCheckedOut) = await _userRepository.CheckAttendanceStatus(userId);
 
@@ -50,10 +50,8 @@ public class UserService : IUserService
             return response;
         }
 
-        await _userRepository.MarkCheckOut(userId);
+        response.ResponseData = await _userRepository.MarkCheckOut(userId);
         await _unitOfWork.SaveChangesAsync();
-
-
         response.HasError = false;
         return response;
     }
