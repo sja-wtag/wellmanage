@@ -8,5 +8,5 @@ public interface IUserService
     Task<ServiceResponse<AttendanceStatus>> MarkUserCheckIn(long userId);
     Task<ServiceResponse<AttendanceStatus>> MarkUserCheckOut(long userId);
     Task<AttendanceStatus> GetAttendenceStatus(long userId);
-    Task<List<Attendance>> GetAttendenceSummary(long userId);
+    Task<List<AttendanceResponse>> GetAttendences(long userId);
 }

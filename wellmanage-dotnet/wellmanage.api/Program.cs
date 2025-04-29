@@ -2,10 +2,17 @@ using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using wellmanage.api.Extensions;
+using AutoMapper;
+using wellmanage.api.Controllers;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
+
+#region AutoMapper
+builder.Services.AddAutoMapper(typeof(AuthenticationController), typeof(AuthenticationService));
+#endregion
 
 #region DI
 builder.Services.AddDatabaseContexts(configuration);

@@ -1,3 +1,4 @@
+using AutoMapper;
 using wellmanage.application.Interfaces;
 using wellmanage.data.Interfaces;
 using wellmanage.domain.Entity;
@@ -9,10 +10,12 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    private readonly IMapper _mapper;
+    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
     public async Task<ServiceResponse<AttendanceStatus>> MarkUserCheckIn(long userId)
     {
@@ -63,9 +66,10 @@ public class UserService : IUserService
         return status;
     }
 
-    public async Task<List<Attendance>> GetAttendenceSummary(long userId)
+    public async Task<List<AttendanceResponse>> GetAttendences(long userId)
     {
-        var attendanceSummary = await _userRepository.GetAttendanceSummary(userId);
+        var attendances = await _userRepository.GetAttendances(userId);
+        var attendanceSummary = _mapper.Map<List<AttendanceResponse>>(attendances);
         return attendanceSummary;
     }
 

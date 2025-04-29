@@ -99,7 +99,7 @@ namespace wellmanage.data.Repositories
             };
         }
 
-        public async Task<List<Attendance>> GetAttendanceSummary(long userId)
+        public async Task<List<Attendance>> GetAttendances(long userId)
         {
             var attendances = await _dataContext.Attendances.Where(attendence=> attendence.UserId == userId).OrderBy(attendence=> attendence.Id).ToListAsync();
             return attendances;
