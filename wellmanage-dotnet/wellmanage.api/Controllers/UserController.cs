@@ -38,7 +38,7 @@ namespace wellmanage_dotnet.Controllers
                 {
                     return BadRequest(response);
                 }
-                return Ok();
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace wellmanage_dotnet.Controllers
                 {
                     return BadRequest(response);
                 }
-                return Ok();
+                return Ok(response);
             }
             catch (Exception ex)
             {

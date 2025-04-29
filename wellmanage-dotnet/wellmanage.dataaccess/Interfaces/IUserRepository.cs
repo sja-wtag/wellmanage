@@ -10,8 +10,8 @@ namespace wellmanage.data.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        public Task MarkCheckIn(long userId);
-        public Task MarkCheckOut(long userId);
+        public Task<AttendanceStatus> MarkCheckIn(long userId);
+        public Task<AttendanceStatus> MarkCheckOut(long userId);
         Task<bool> IsAlreadyCheckedIn(long userId);
         Task<(bool IsAlreadyCheckedIn, bool IsAlreadyCheckedOut)> CheckAttendanceStatus(long userId);
         Task<AttendanceStatus> GetAttendanceStatus(long userId);
