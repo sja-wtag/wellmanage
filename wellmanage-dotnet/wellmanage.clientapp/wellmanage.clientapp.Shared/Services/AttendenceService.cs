@@ -15,10 +15,10 @@ namespace wellmanage.clientapp.Shared.Services
         private readonly HttpClient _http;
         public event Action<AttendanceStatus> OnAttendenceChanged;
         private readonly JwtAuthStateProvider _authStateProvider;
-        public AttendenceService(HttpClient http, JwtAuthStateProvider authStateProvider)
+        public AttendenceService(HttpClient http, AuthenticationStateProvider authStateProvider)
         {
             _http = http;
-            _authStateProvider = authStateProvider;
+            _authStateProvider = (JwtAuthStateProvider)authStateProvider;
         }
 
         public async Task<AttendanceStatus> GetAttendenceStatus()
