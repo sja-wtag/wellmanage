@@ -25,11 +25,13 @@ namespace wellmanage.clientapp.Shared.Layout
         }
         public async Task CheckIn()
         {
-           await attendenceService.CheckInUser();
+            currentAttendenceStatus = await attendenceService.CheckInUser();
+            StateHasChanged();
         }
         public async Task CheckOut()
         {
-            await attendenceService.CheckOutUser();
+            currentAttendenceStatus = await attendenceService.CheckOutUser();
+            StateHasChanged();
         }
     }
 }

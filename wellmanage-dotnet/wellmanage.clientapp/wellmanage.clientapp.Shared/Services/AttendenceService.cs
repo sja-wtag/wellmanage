@@ -28,14 +28,22 @@ namespace wellmanage.clientapp.Shared.Services
             return result;
         } 
 
-        public async Task CheckInUser()
+        public async Task<AttendanceStatus?> CheckInUser()
         {
             var response = await _http.PostAsync("api/v1/user/check-in", null);
+            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<AttendanceStatus>>();
+            var attendence = result?.ResponseData;
+            OnAttendenceChanged?.Invoke(attendence);
+            return attendence;
         }
 
-        public async Task CheckOutUser()
+        public async Task<AttendanceStatus?> CheckOutUser()
         {
             var response = await _http.PostAsync("api/v1/user/check-out", null);
+            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<AttendanceStatus>>();
+            var attendence = result?.ResponseData;
+            OnAttendenceChanged?.Invoke(attendence);
+            return attendence;
         }
     }
 }
