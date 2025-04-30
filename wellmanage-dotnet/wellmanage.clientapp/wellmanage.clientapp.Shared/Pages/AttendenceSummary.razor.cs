@@ -8,6 +8,7 @@ public partial class AttendenceSummary : ComponentBase
 {
     [Inject]
     public AttendenceService attendenceService { get; set; }
+    bool isLoading = false;
 
     private List<AttendanceResponse> _attendanceResponses = [];
     protected override void OnInitialized()
@@ -17,6 +18,9 @@ public partial class AttendenceSummary : ComponentBase
     
     public async Task LoadAttendencSummary()
     {
+        isLoading = true;
         _attendanceResponses = await attendenceService.GetAttendances();
+        isLoading = false;
+        StateHasChanged();
     }
 }
