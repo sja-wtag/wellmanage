@@ -51,7 +51,7 @@ namespace wellmanage.data.Repositories
 
         public async Task<AttendanceStatus> GetAttendanceStatus(long userId)
         {
-            var attendancesToday = await _dataContext.Attendances.AsNoTracking()
+            var attendancesToday = await _dataContext.Attendances
                 .Where(item => item.UserId == userId && item.CheckInTime.Date == DateTime.UtcNow.Date)
                 .OrderByDescending(item => item.Id)
                 .ToListAsync();
@@ -72,7 +72,7 @@ namespace wellmanage.data.Repositories
             return attendenceDetails;
         }
 
-        public async Task<AttendanceStatus> MarkCheckIn(long userId)
+        public async Task<Attendance> MarkCheckIn(long userId)
         {
             var attendance = new Attendance
             {
@@ -81,14 +81,10 @@ namespace wellmanage.data.Repositories
             };
 
             _dataContext.Attendances.Add(attendance);
-
-            return new AttendanceStatus()
-            {
-                LastCheckInAt = attendance.CheckInTime
-            };
+            return attendance;
         }
 
-        public async Task<AttendanceStatus> MarkCheckOut(long userId)
+        public async Task<Attendance> MarkCheckOut(long userId)
         {
             var attendance = await _dataContext.Attendances
                 .Where(a => a.UserId == userId && a.CheckOutTime == null)
@@ -99,11 +95,7 @@ namespace wellmanage.data.Repositories
             {
                 attendance.CheckOutTime = DateTime.UtcNow;
             }
-            return new AttendanceStatus()
-            {
-                LastCheckInAt = attendance?.CheckInTime,
-                LastCheckOutAt = attendance?.CheckOutTime
-            };
+            return attendance;
         }
 
         public async Task<List<Attendance>> GetAttendances(long userId)
