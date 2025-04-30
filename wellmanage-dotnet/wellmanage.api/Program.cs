@@ -5,6 +5,7 @@ using wellmanage.api.Extensions;
 using AutoMapper;
 using wellmanage.api.Controllers;
 using Microsoft.AspNetCore.Authentication;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -63,7 +64,13 @@ builder.Services.AddSwaggerGen(c =>
 
 #endregion
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+   {
+       // Configure Newtonsoft.Json options here
+       options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+       options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+   });
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
 
