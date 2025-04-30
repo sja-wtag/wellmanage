@@ -51,15 +51,22 @@ namespace wellmanage.data.Repositories
 
         public async Task<AttendanceStatus> GetAttendanceStatus(long userId)
         {
-            var attendance = await _dataContext.Attendances
+            var attendancesToday = await _dataContext.Attendances.AsNoTracking()
                 .Where(item => item.UserId == userId && item.CheckInTime.Date == DateTime.UtcNow.Date)
                 .OrderByDescending(item => item.Id)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
+
+            var lastAttendance = attendancesToday.FirstOrDefault();
+
+            var totalWorkTime =  attendancesToday
+                .Select(item => item.CheckOutTime == null ? DateTime.UtcNow - item.CheckInTime : item.CheckOutTime - item.CheckInTime)
+                .Aggregate(TimeSpan.Zero, (sum,next) => (TimeSpan)(sum + next));
 
             var attendenceDetails = new AttendanceStatus()
             {
-                LastCheckInAt = attendance != null ? attendance.CheckInTime : null,
-                LastCheckOutAt = attendance != null ? attendance.CheckOutTime : null
+                LastCheckInAt = lastAttendance != null ? lastAttendance.CheckInTime : null,
+                LastCheckOutAt = lastAttendance != null ? lastAttendance.CheckOutTime : null,
+                TotalWorkTime = totalWorkTime,
             };
 
             return attendenceDetails;
