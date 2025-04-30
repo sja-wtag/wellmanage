@@ -20,8 +20,8 @@ public class UserService : IUserService
     public async Task<ServiceResponse<AttendanceStatus>> MarkUserCheckIn(long userId)
     {
         var response = new ServiceResponse<AttendanceStatus>();
-        var isAlreadyCheckedIn = await _userRepository.IsAlreadyCheckedIn(userId);
-        if (isAlreadyCheckedIn)
+        var attendanceStatus = await _userRepository.GetAttendanceStatus(userId);
+        if (attendanceStatus.IsAlreadyCheckedIn)
         {
             response.HasError = true;
             response.ErrorList = new List<string>()
@@ -30,8 +30,11 @@ public class UserService : IUserService
             };
             return response;
         }
-        response.ResponseData = await _userRepository.MarkCheckIn(userId);
+        var attendance = await _userRepository.MarkCheckIn(userId);
         await _unitOfWork.SaveChangesAsync();
+        attendanceStatus.LastCheckInAt = attendance.CheckInTime;
+        attendanceStatus.LastCheckOutAt = null;
+        response.ResponseData = attendanceStatus;
         return response;
     }
 
@@ -39,23 +42,25 @@ public class UserService : IUserService
     {
         var response = new ServiceResponse<AttendanceStatus>();
 
-        var (isAlreadyCheckedIn, isAlreadyCheckedOut) = await _userRepository.CheckAttendanceStatus(userId);
+        var attendanceStatus = await _userRepository.GetAttendanceStatus(userId);
 
-        if (!isAlreadyCheckedIn || isAlreadyCheckedOut)
+        if (!attendanceStatus.IsAlreadyCheckedOut || attendanceStatus.IsAlreadyCheckedOut)
         {
             response.HasError = true;
             response.ErrorList = new List<string>()
         {
-            isAlreadyCheckedOut ? "User is already checked out" :
-            !isAlreadyCheckedIn ? "User is not checked in" :
+            attendanceStatus.IsAlreadyCheckedOut ? "User is already checked out" :
+            !attendanceStatus.IsAlreadyCheckedIn ? "User is not checked in" :
             "Unknown error"
         };
 
             return response;
         }
 
-        response.ResponseData = await _userRepository.MarkCheckOut(userId);
+        var attendance = await _userRepository.MarkCheckOut(userId);
         await _unitOfWork.SaveChangesAsync();
+        attendanceStatus.LastCheckOutAt = attendance.CheckOutTime;
+        response.ResponseData = attendanceStatus;
         response.HasError = false;
         return response;
     }
