@@ -1,11 +1,11 @@
 @page "/attendence-summary"
-<h3>AttendenceSummary</h3>
+<h3>Attendence Summary</h3>
 
-<MudTable Items="@_attendanceResponses" Hover="true" Breakpoint="Breakpoint.Sm" Loading="true" LoadingProgressColor="Color.Info">
+<MudTable Items="@_attendanceResponses" Hover="true" Breakpoint="Breakpoint.Sm" Loading="isLoading" LoadingProgressColor="Color.Info">
     <HeaderContent>
-        <MudTh>Serial</MudTh>
-        <MudTh>Check In</MudTh>
-        <MudTh>Check Out</MudTh>
+        <MudTh>No</MudTh>
+        <MudTh>Check In Time</MudTh>
+        <MudTh>Check Out Time</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Nr">@context.Id</MudTd>
