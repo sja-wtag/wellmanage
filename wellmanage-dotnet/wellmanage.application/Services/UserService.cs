@@ -44,7 +44,7 @@ public class UserService : IUserService
 
         var attendanceStatus = await _userRepository.GetAttendanceStatus(userId);
 
-        if (!attendanceStatus.IsAlreadyCheckedOut || attendanceStatus.IsAlreadyCheckedOut)
+        if (!attendanceStatus.IsAlreadyCheckedIn || attendanceStatus.IsAlreadyCheckedOut)
         {
             response.HasError = true;
             response.ErrorList = new List<string>()
