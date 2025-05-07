@@ -2,6 +2,7 @@
 @using wellmanage.clientapp.Shared.Pages
 @using wellmanage.clientapp.Shared.Services
 @using System.Timers
+@using wellmanage.shared.Models
 @inherits LayoutComponentBase
 @inject AttendenceService attendenceService
 @implements IDisposable
@@ -48,32 +49,34 @@
 
     protected override void OnInitialized()
     {
-        attendenceService.OnAttendenceChanged += (attendanceStatus) =>
+        attendenceService.OnAttendenceChanged += OnAttendanceChanged;
+        base.OnInitialized();
+    }
+
+    public void OnAttendanceChanged(AttendanceStatus attendanceStatus)
+    {
+        if (attendanceStatus != null)
         {
-            if (attendanceStatus != null)
+            worktime = attendanceStatus.TotalWorkTime;
+            if (attendanceStatus.IsAlreadyCheckedOut && timer != null && timer.Enabled)
             {
-                worktime = attendanceStatus.TotalWorkTime;
-                if (attendanceStatus.IsAlreadyCheckedOut && timer != null && timer.Enabled)
+                timer.Enabled = false;
+            }
+
+            if (attendanceStatus.IsAlreadyCheckedIn && !attendanceStatus.IsAlreadyCheckedOut)
+            {
+                if (timer == null)
                 {
-                    timer.Enabled = false;
+                    CreateTimer();
                 }
 
-                if (attendanceStatus.IsAlreadyCheckedIn && !attendanceStatus.IsAlreadyCheckedOut)
+                if (!timer.Enabled)
                 {
-                    if (timer == null)
-                    {
-                        CreateTimer();
-                    }
-
-                    if (!timer.Enabled)
-                    {
-                        timer.Enabled = true;
-                    }
+                    timer.Enabled = true;
                 }
             }
-            StateHasChanged();
-        };
-        base.OnInitialized();
+        }
+        StateHasChanged();
     }
 
     public void CreateTimer()
@@ -92,6 +95,7 @@
 
     public void Dispose()
     {
+        attendenceService.OnAttendenceChanged -= OnAttendanceChanged;
         timer?.Dispose();
     }
 }

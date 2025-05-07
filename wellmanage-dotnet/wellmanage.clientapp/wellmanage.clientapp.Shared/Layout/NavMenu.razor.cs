@@ -9,7 +9,7 @@ using wellmanage.shared.Models;
 
 namespace wellmanage.clientapp.Shared.Layout
 {
-    public partial class NavMenu
+    public partial class NavMenu : IDisposable
     {
         [Inject]
         AttendenceService attendenceService { get; set; }
@@ -17,11 +17,13 @@ namespace wellmanage.clientapp.Shared.Layout
 
         protected override void OnInitialized()
         {
-            attendenceService.OnAttendenceChanged += (attendenceStatus) =>
-            {
-                currentAttendenceStatus = attendenceStatus;
-                StateHasChanged();
-            };
+            attendenceService.OnAttendenceChanged += OnAttendenceChanged;
+        }
+
+        public void OnAttendenceChanged(AttendanceStatus attendanceStatus)
+        {
+            currentAttendenceStatus = attendanceStatus;
+            StateHasChanged();
         }
         public async Task CheckIn()
         {
@@ -32,6 +34,11 @@ namespace wellmanage.clientapp.Shared.Layout
         {
             currentAttendenceStatus = await attendenceService.CheckOutUser();
             StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            attendenceService.OnAttendenceChanged -= OnAttendenceChanged;
         }
     }
 }

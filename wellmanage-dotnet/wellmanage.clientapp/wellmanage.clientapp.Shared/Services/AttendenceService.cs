@@ -23,10 +23,19 @@ namespace wellmanage.clientapp.Shared.Services
 
         public async Task<AttendanceStatus> GetAttendenceStatus()
         {
-            var response = await _http.GetAsync("api/v1/user/attendence-status");
-            var result = await response.Content.ReadFromJsonAsync<AttendanceStatus>();
-            OnAttendenceChanged?.Invoke(result);
-            return result;
+            try
+            {
+                var response = await _http.GetAsync("api/v1/user/attendence-status");
+                var result = await response.Content.ReadFromJsonAsync<AttendanceStatus>();
+                OnAttendenceChanged?.Invoke(result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+            
         } 
 
         public async Task<AttendanceStatus?> CheckInUser()
