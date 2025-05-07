@@ -10,7 +10,7 @@ namespace wellmanage.data.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<T> GetAsync(int id);
+        Task<T> GetAsync(long id);
         Task<IEnumerable<T>> GetAllAsync();
         Task SaveAsync(T entity);
         Task UpdateAsync(T entity);

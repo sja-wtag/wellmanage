@@ -26,7 +26,7 @@ namespace wellmanage.data.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public virtual async Task<T> GetAsync(int id)
+        public virtual async Task<T> GetAsync(long id)
         {
             return await _dbSet.FindAsync(id);
         }
