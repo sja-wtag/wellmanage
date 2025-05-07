@@ -8,8 +8,24 @@ namespace wellmanage.data.Data;
 public class DataContext : IdentityDbContext<User, IdentityRole<long>, long>
 {
     public DbSet<Attendance> Attendances { get; set; }
+    public DbSet<Employee> Employees { get; set; }
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
 
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<Employee>().ToTable("Employees");
+
+        modelBuilder.Entity<Employee>()
+                 .HasOne(e => e.TeamLead)
+                 .WithMany(e => e.Assignies)
+                 .HasForeignKey(e => e.TeamLeadId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+        base.OnModelCreating(modelBuilder);
+    }
+
 }
