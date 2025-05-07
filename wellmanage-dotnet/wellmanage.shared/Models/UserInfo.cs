@@ -1,6 +1,6 @@
 using wellmanage.shared.Enums;
 
-namespace wellmanage.api.Models;
+namespace wellmanage.shared.Models;
 
 public class UserBasicInfo
 {

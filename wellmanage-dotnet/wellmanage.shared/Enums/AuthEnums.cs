@@ -1,4 +1,4 @@
-namespace wellmanage.api.Enums;
+namespace wellmanage.shared.Enums;
 
 public enum VerificationTypeEnum
 {

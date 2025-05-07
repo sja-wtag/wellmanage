@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Primitives;
-using wellmanage.api.Enums;
-using wellmanage.api.Models;
 using wellmanage.application.Interfaces;
 using wellmanage.application.Models;
 using wellmanage.domain.Entity;
 using wellmanage.shared.Enums;
+using wellmanage.shared.Models;
 
 
 namespace wellmanage.api.Controllers;

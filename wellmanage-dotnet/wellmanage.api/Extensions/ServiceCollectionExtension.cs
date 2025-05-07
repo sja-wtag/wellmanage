@@ -8,6 +8,8 @@ using wellmanage.data.Data;
 using wellmanage.domain.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using wellmanage.application.Models;
+using wellmanage.data.Interfaces;
+using wellmanage.data.Repositories;
 
 namespace wellmanage.api.Extensions;
 
@@ -51,14 +53,7 @@ public static class ServiceCollectionExtensions
                         {
                             var accessToken = context.Request.Query["access_token"];
 
-                            // If the request is for our hub...
-                            var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) &&
-                                (path.StartsWithSegments("/hubs/chat") || path.StartsWithSegments("/hubs/video")))
-                            {
-                                // Read the token out of the query string
-                                context.Token = accessToken;
-                            }
+                            //context.Token = accessToken;
                             return Task.CompletedTask;
                         }
                     };
@@ -74,5 +69,12 @@ public static class ServiceCollectionExtensions
         var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
         services.AddSingleton(emailConfig);
         services.AddScoped<IEmailService, EmailService>();
+    }
+
+    public static void AddOtherServicesWithRepositories(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }
