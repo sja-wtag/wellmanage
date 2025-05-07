@@ -7,6 +7,7 @@ namespace wellmanage.data.Data;
 
 public class DataContext : IdentityDbContext<User, IdentityRole<long>, long>
 {
+    public DbSet<Attendance> Attendances { get; set; }
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
 
