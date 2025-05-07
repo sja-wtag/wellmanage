@@ -48,17 +48,17 @@
 
     protected override void OnInitialized()
     {
-        this.attendenceService.OnAttendenceChanged += (attendanceStatus) =>
+        attendenceService.OnAttendenceChanged += (attendanceStatus) =>
         {
             if (attendanceStatus != null)
             {
                 worktime = attendanceStatus.TotalWorkTime;
-                if (attendanceStatus.IsAlreadyCheckedOut && timer.Enabled)
+                if (attendanceStatus.IsAlreadyCheckedOut && timer != null && timer.Enabled)
                 {
                     timer.Enabled = false;
                 }
 
-                if (attendanceStatus.IsAlreadyCheckedIn)
+                if (attendanceStatus.IsAlreadyCheckedIn && !attendanceStatus.IsAlreadyCheckedOut)
                 {
                     if (timer == null)
                     {
@@ -71,6 +71,7 @@
                     }
                 }
             }
+            StateHasChanged();
         };
         base.OnInitialized();
     }
@@ -91,6 +92,6 @@
 
     public void Dispose()
     {
-        timer.Dispose();
+        timer?.Dispose();
     }
 }
