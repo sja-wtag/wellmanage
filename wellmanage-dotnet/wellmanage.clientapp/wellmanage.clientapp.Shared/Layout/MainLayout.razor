@@ -1,5 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using wellmanage.clientapp.Shared.Pages
+@inherits LayoutComponentBase
+<MudThemeProvider/>
+<MudPopoverProvider />
 
+<AuthorizeView>
+    <Authorized>
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,7 +13,10 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            
+                    <div> Hello, @context.User.Identity?.Name!</div>
+                    <a href="/logout">Logout</a>
+                
         </div>
 
         <article class="content px-4">
@@ -15,6 +24,11 @@
         </article>
     </main>
 </div>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin></RedirectToLogin>
+    </NotAuthorized>
+</AuthorizeView>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.

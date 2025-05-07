@@ -51,14 +51,7 @@ public static class ServiceCollectionExtensions
                         {
                             var accessToken = context.Request.Query["access_token"];
 
-                            // If the request is for our hub...
-                            var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) &&
-                                (path.StartsWithSegments("/hubs/chat") || path.StartsWithSegments("/hubs/video")))
-                            {
-                                // Read the token out of the query string
-                                context.Token = accessToken;
-                            }
+                            //context.Token = accessToken;
                             return Task.CompletedTask;
                         }
                     };

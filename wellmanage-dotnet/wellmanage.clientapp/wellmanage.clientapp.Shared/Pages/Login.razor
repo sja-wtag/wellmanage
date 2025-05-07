@@ -1,0 +1,48 @@
+@page "/"
+@page "/login"
+
+@using MudBlazor
+@using System.ComponentModel.DataAnnotations
+@using Layout
+@layout EmptyLayout
+
+<MudPaper Elevation="4" Class="d-flex justify-center align-center" Style="width: 100%; height: 100vh;">
+    <MudCard Class="pa-6" Style="width: 100%; max-width: 400px;">
+        <MudCardContent>
+            <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4">Login</MudText>
+
+            <EditForm Model="@loginModel" OnSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <MudTextField T="string" Label="Email"
+                              @bind-Value="loginModel.Email"
+                              Required="true"
+                              FullWidth="true"
+                              Class="mb-3" />
+
+                <MudTextField T="string" Label="Password"
+                              @bind-Value="loginModel.Password"
+                              InputType="InputType.Password"
+                              Required="true"
+                              FullWidth="true"
+                              Class="mb-3" />
+
+                <MudButton Type="Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true"
+                           Class="mt-2" OnClick="HandleValidSubmit">Login</MudButton>
+            </EditForm>
+
+            @if (loginSuccess)
+            {
+                <MudAlert Severity="Severity.Success" Class="mt-3">Login successful!</MudAlert>
+            }
+            @if (loginFailed)
+            {
+                <MudAlert Severity="Severity.Error" Class="mt-3">Invalid username or password!</MudAlert>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudPaper>

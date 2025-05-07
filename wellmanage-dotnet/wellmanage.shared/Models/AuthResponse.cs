@@ -1,4 +1,4 @@
-namespace wellmanage.api.Models;
+namespace wellmanage.shared.Models;
 
 public class BaseResponse
 {

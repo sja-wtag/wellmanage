@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 using wellmanage.clientapp.Services;
+using wellmanage.clientapp.Shared.Interfaces;
 using wellmanage.clientapp.Shared.Services;
 
 namespace wellmanage.clientapp
@@ -26,6 +30,15 @@ namespace wellmanage.clientapp
             builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddMudServices();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped(sp => new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7270/api")
+            });
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
+            builder.Services.AddAuthorizationCore();
             return builder.Build();
         }
     }

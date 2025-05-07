@@ -29,4 +29,9 @@
       <ProjectReference Include="..\wellmanage.application\wellmanage.application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Enums\" />
+      <Folder Include="Models\" />
+    </ItemGroup>
+
 </Project>
