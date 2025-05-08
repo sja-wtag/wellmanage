@@ -87,10 +87,10 @@
         timer.Elapsed += OnTimerElapsed;
     }
 
-    public void OnTimerElapsed(object sender, EventArgs e)
+    public async void OnTimerElapsed(object sender, EventArgs e)
     {
-        worktime = worktime + TimeSpan.FromSeconds(1);
-        StateHasChanged();
+        worktime = worktime.Add(TimeSpan.FromSeconds(1));
+        await InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
