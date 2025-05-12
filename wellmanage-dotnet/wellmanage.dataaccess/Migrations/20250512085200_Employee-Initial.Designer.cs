@@ -12,7 +12,7 @@ using wellmanage.data.Data;
 namespace wellmanage.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250507093822_Employee-Initial")]
+    [Migration("20250512085200_Employee-Initial")]
     partial class EmployeeInitial
     {
         /// <inheritdoc />
@@ -182,6 +182,38 @@ namespace wellmanage.data.Migrations
                     b.ToTable("Attendances");
                 });
 
+            modelBuilder.Entity("wellmanage.domain.Entity.Employee", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Designation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("JoiningDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("TeamLeadId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamLeadId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("wellmanage.domain.Entity.User", b =>
                 {
                     b.Property<long>("Id")
@@ -267,29 +299,6 @@ namespace wellmanage.data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.UseTptMappingStrategy();
-                });
-
-            modelBuilder.Entity("wellmanage.domain.Entity.Employee", b =>
-                {
-                    b.HasBaseType("wellmanage.domain.Entity.User");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("JoiningDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("TeamLeadId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("TeamLeadId");
-
-                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -356,19 +365,19 @@ namespace wellmanage.data.Migrations
 
             modelBuilder.Entity("wellmanage.domain.Entity.Employee", b =>
                 {
-                    b.HasOne("wellmanage.domain.Entity.User", null)
-                        .WithOne()
-                        .HasForeignKey("wellmanage.domain.Entity.Employee", "Id")
+                    b.HasOne("wellmanage.domain.Entity.Employee", "TeamLead")
+                        .WithMany("Assignies")
+                        .HasForeignKey("TeamLeadId");
+
+                    b.HasOne("wellmanage.domain.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("wellmanage.domain.Entity.Employee", "TeamLead")
-                        .WithMany("Assignies")
-                        .HasForeignKey("TeamLeadId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("TeamLead");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("wellmanage.domain.Entity.Employee", b =>

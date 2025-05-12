@@ -8,10 +8,10 @@ namespace wellmanage.shared.Models
 {
     public class EmployeeSaveRequest
     {
-        public long Id { get; set; }
+        public long UserId { get; set; }
         public string? Department { get; set; }
         public DateTime JoiningDate { get; set; }
         public string? Designation { get; set; }
-        public long TeamLeadId { get; set; }
+        public long? TeamLeadId { get; set; }
     }
 }

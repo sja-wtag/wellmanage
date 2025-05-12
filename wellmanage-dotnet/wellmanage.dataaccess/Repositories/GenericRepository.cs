@@ -45,5 +45,21 @@ namespace wellmanage.data.Repositories
         {
             _dbSet.Remove(entity);
         }
+
+        public void ClearChangeTracker()
+        {
+            _databaseContext.ChangeTracker.Clear();
+        }
+
+        public void DetachState(T entity)
+        {
+            _databaseContext.Entry(entity).State = EntityState.Detached;
+        }
+
+        public void AttachState(T entity)
+        {
+            _databaseContext.Attach(entity);
+            _databaseContext.Entry(entity).State = EntityState.Added;
+        }
     }
 }

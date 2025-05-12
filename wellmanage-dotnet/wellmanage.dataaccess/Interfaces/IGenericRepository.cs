@@ -15,5 +15,8 @@ namespace wellmanage.data.Interfaces
         Task SaveAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
+        void AttachState(T entity);
+        void DetachState(T entity);
+        void ClearChangeTracker();
     }
 }

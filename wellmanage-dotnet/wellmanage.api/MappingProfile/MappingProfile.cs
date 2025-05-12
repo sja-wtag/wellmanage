@@ -9,8 +9,7 @@ namespace wellmanage.MappingProfile
         public MappingProfile() 
         {
             CreateMap<Attendance, AttendanceResponse>().ReverseMap();
-            CreateMap<User, Employee>().ReverseMap();
-            CreateMap<Employee, EmployeeSaveRequest>();
+            CreateMap<Employee, EmployeeSaveRequest>().ReverseMap();
         }
     }
 }

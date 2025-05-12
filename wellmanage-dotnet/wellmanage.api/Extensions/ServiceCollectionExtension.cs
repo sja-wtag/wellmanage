@@ -76,5 +76,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
     }
 }

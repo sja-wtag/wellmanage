@@ -27,9 +27,10 @@ namespace wellmanage.application.Services
 
         public async Task AddEmployee(EmployeeSaveRequest request)
         {
-            var user = await _userRepository.GetAsync(request.Id);
-            var employee = _mapper.Map<Employee>(user);
+            var user = await _userRepository.GetAsync(request.UserId);
+            var employee = new Employee();
             _mapper.Map(request, employee);
+            employee.User = user;
             await _employeeRepository.SaveAsync(employee);
             await _unitOfWork.SaveChangesAsync();
         }

@@ -29,7 +29,7 @@ namespace wellmanage_dotnet.Controllers
         {
             try
             {
-                if (request.Id == 0)
+                if (request.UserId == 0)
                 {
                     return BadRequest();
                 }

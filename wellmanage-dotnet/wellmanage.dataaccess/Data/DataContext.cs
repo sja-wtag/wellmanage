@@ -16,15 +16,6 @@ public class DataContext : IdentityDbContext<User, IdentityRole<long>, long>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().ToTable("Users");
-        modelBuilder.Entity<Employee>().ToTable("Employees");
-
-        modelBuilder.Entity<Employee>()
-                 .HasOne(e => e.TeamLead)
-                 .WithMany(e => e.Assignies)
-                 .HasForeignKey(e => e.TeamLeadId)
-                 .OnDelete(DeleteBehavior.Restrict);
-
         base.OnModelCreating(modelBuilder);
     }
 
