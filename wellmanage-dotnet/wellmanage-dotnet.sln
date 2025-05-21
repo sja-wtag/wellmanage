@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.clientapp.Web", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.clientapp.Web.Client", "wellmanage.clientapp\wellmanage.clientapp.Web.Client\wellmanage.clientapp.Web.Client.csproj", "{78BE665F-DA1F-41E7-B234-875969DD2DDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.hrm.client", "wellmanage.hrm.client\wellmanage.hrm.client.csproj", "{48E4B609-F414-4444-A627-F5CC681AA180}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78BE665F-DA1F-41E7-B234-875969DD2DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E4B609-F414-4444-A627-F5CC681AA180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E4B609-F414-4444-A627-F5CC681AA180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E4B609-F414-4444-A627-F5CC681AA180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E4B609-F414-4444-A627-F5CC681AA180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
