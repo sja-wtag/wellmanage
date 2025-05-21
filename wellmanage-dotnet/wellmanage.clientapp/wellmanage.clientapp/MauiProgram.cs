@@ -37,7 +37,9 @@ namespace wellmanage.clientapp
                 BaseAddress = new Uri("https://localhost:7270/api")
             });
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddScoped<IAppStorage, MauiAppStorage>();
             builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
+            builder.Services.AddScoped<AttendenceService>();
             builder.Services.AddAuthorizationCore();
             return builder.Build();
         }

@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using MudBlazor.Services;
 using wellmanage.clientapp.Shared.Interfaces;
 using wellmanage.clientapp.Shared.Services;
+using wellmanage.clientapp.Web.Client.Services.Storage;
 using wellmanage.clientapp.Web.Components;
 using wellmanage.clientapp.Web.Services;
 
@@ -22,8 +23,9 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri("https://localhost:7270/api")
 });
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<IAppStorage, WebAppStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
-
+builder.Services.AddScoped<AttendenceService>();
 // Add device-specific services used by the wellmanage.clientapp.Shared project
 builder.Services.AddSingleton<IFormFactor, FormFactor>();
 builder.Services.AddAuthentication(options =>
