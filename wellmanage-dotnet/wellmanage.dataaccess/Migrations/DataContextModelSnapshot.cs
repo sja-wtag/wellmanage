@@ -176,7 +176,7 @@ namespace wellmanage.data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Attendances");
+                    b.ToTable("Attendances", (string)null);
                 });
 
             modelBuilder.Entity("wellmanage.domain.Entity.Employee", b =>
@@ -208,7 +208,7 @@ namespace wellmanage.data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("wellmanage.domain.Entity.User", b =>

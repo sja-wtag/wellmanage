@@ -13,5 +13,6 @@ namespace wellmanage.shared.Models
         public DateTime JoiningDate { get; set; }
         public string? Designation { get; set; }
         public long? TeamLeadId { get; set; }
+        public List<long> Assignies { get; set; }
     }
 }

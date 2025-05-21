@@ -58,9 +58,9 @@ namespace wellmanage.data.Repositories
 
             var lastAttendance = attendancesToday.FirstOrDefault();
 
-            var totalWorkTime =  attendancesToday
+            var totalWorkTime = attendancesToday
                 .Select(item => item.CheckOutTime == null ? DateTime.UtcNow - item.CheckInTime : item.CheckOutTime - item.CheckInTime)
-                .Aggregate(TimeSpan.Zero, (sum,next) => (TimeSpan)(sum + next));
+                .Aggregate(TimeSpan.Zero, (sum, next) => (TimeSpan)(sum + next));
 
             var attendenceDetails = new AttendanceStatus()
             {
@@ -100,8 +100,47 @@ namespace wellmanage.data.Repositories
 
         public async Task<List<Attendance>> GetAttendances(long userId)
         {
-            var attendances = await _dataContext.Attendances.Where(attendence=> attendence.UserId == userId).OrderBy(attendence=> attendence.Id).ToListAsync();
+            var attendances = await _dataContext.Attendances.Where(attendence => attendence.UserId == userId).OrderBy(attendence => attendence.Id).ToListAsync();
             return attendances;
+        }
+
+        public async Task<List<UserInfo>> GetUsersWhoAreNotEmployee()
+        {
+            var usersNotInEmployees = _dataContext.Users
+                                .Where(u => !_dataContext.Employees.Any(e => e.UserId == u.Id) && u.EmailConfirmed == true)
+                                .Select(user => new UserInfo()
+                                {
+                                    UserName = user.UserName,
+                                    FullName = user.FullName,
+                                    Email = user.Email,
+                                    Id = user.Id,
+                                    Status = user.Status,
+                                })
+                                .ToList();
+
+            return usersNotInEmployees;
+        }
+
+        public async Task<List<AttendanceDto>> GetAttendancesToday()
+        {
+            var today = DateTime.Today;
+
+            var attendancesDto = await _dataContext.Attendances
+                .Where(a => a.CheckInTime.Date == today)
+                .GroupBy(a => a.UserId)
+                .Select(g => g
+                    .OrderByDescending(a => a.CheckInTime)
+                    .Select(a => new AttendanceDto
+                    {
+                        Id = a.Id,
+                        CheckInTime = a.CheckInTime,
+                        CheckOutTime = a.CheckOutTime,
+                        UserId = a.UserId,
+                        Username = a.User.FullName
+                    }).FirstOrDefault())
+                .ToListAsync();
+
+            return attendancesDto;
         }
     }
 }

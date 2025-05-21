@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using wellmanage.shared.Enums;
 
 namespace wellmanage.shared.Models;
@@ -13,6 +14,7 @@ public class UserInfo : UserBasicInfo
     public string FullName { get; set; }
     public string Email { get; set; }
     public StatusEnum Status { get; set; }
+    [Browsable(false)]
     public string StatusDetail => Status.ToString();
 }
 

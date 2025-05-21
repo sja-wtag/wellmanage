@@ -11,17 +11,26 @@ namespace wellmanage.domain.Entity
     public class Employee
     {
         public Employee() { }
+
         [Key]
         public long Id { get; set; }
+
         public string? Department { get; set; }
         public DateTime JoiningDate { get; set; }
         public string? Designation { get; set; }
+
         [ForeignKey("TeamLead")]
-        public long? TeamLeadId {  get; set; }
+        public long? TeamLeadId { get; set; }
+
+        [InverseProperty("Assignees")]
         public Employee? TeamLead { get; set; }
-        public List<Employee> Assignies { get; set; } = new List<Employee>();
+
+        [InverseProperty("TeamLead")]
+        public List<Employee> Assignees { get; set; } = new List<Employee>();
+
         [ForeignKey("User")]
         public long UserId { get; set; }
         public User User { get; set; }
     }
+
 }
