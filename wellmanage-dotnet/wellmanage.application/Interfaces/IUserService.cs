@@ -9,4 +9,7 @@ public interface IUserService
     Task<ServiceResponse<AttendanceStatus>> MarkUserCheckOut(long userId);
     Task<AttendanceStatus> GetAttendenceStatus(long userId);
     Task<List<AttendanceResponse>> GetAttendences(long userId);
+    Task<bool> AuthenticateAdmin(string email, string password);
+    Task<List<UserInfo>> GetUsersForOnboarding();
+    Task<List<AttendanceDto>> GetAttendencesToday();
 }

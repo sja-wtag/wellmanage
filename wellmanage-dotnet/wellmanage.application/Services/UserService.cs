@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using wellmanage.application.Interfaces;
 using wellmanage.data.Interfaces;
 using wellmanage.domain.Entity;
@@ -11,12 +12,36 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly UserManager<User> _userManager;
+    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _userManager = userManager;
     }
+
+    public async Task<bool> AuthenticateAdmin(string email, string password)
+    {
+        bool isAuthenticated = false;
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            return false;
+        }
+        else
+        {
+            isAuthenticated = await _userManager.CheckPasswordAsync(user, password);
+        }
+        return isAuthenticated;
+    }
+
+    public async Task<List<UserInfo>> GetUsersForOnboarding()
+    {
+        var users = await _userRepository.GetUsersWhoAreNotEmployee();
+        return users;
+    }
+
     public async Task<ServiceResponse<AttendanceStatus>> MarkUserCheckIn(long userId)
     {
         var response = new ServiceResponse<AttendanceStatus>();
@@ -76,6 +101,19 @@ public class UserService : IUserService
         var attendances = await _userRepository.GetAttendances(userId);
         var attendanceSummary = _mapper.Map<List<AttendanceResponse>>(attendances);
         return attendanceSummary;
+    }
+
+    public async Task<List<AttendanceDto>> GetAttendencesToday()
+    {
+        try
+        {
+            var attendances = await _userRepository.GetAttendancesToday();
+            return attendances;
+        }
+        catch (Exception ex) 
+        {
+            throw ;
+        }
     }
 
 }
