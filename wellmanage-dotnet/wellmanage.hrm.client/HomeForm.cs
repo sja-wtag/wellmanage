@@ -12,6 +12,7 @@ using wellmanage.application.Interfaces;
 using wellmanage.application.Services;
 using wellmanage.hrm.client.Service_Container;
 using wellmanage.shared.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace wellmanage.hrm.client
 {
@@ -23,7 +24,7 @@ namespace wellmanage.hrm.client
         private List<EmployeeDto> members = new List<EmployeeDto>();
         private List<AttendanceDto> attendances = new List<AttendanceDto>();
         private long onboardingCount = 0;
-        public HomeForm(IUserService userService)   
+        public HomeForm(IUserService userService)
         {
             InitializeComponent();
             _userService = userService;
@@ -35,11 +36,41 @@ namespace wellmanage.hrm.client
             LoadAllData();
         }
 
+
+        private async Task SetupEmployeeHierarchyTree()
+        {
+            var employees = await _employeeService.GetEmployeesWithUserInformation();
+            var employeeNodeMap = employees.ToDictionary(
+                e => e.Id,
+                e => new TreeNode(e.Name)
+            );
+
+            var rootNodes = new List<TreeNode>();
+
+            foreach (var employee in employees)
+            {
+                if (employee.TeamLeadId is > 0 && employeeNodeMap.TryGetValue(employee.TeamLeadId.Value, out var parentNode))
+                {
+                    var currentNode = employeeNodeMap[employee.Id];
+                    parentNode.Nodes.Add(currentNode);
+                }
+                else
+                {
+                    rootNodes.Add(employeeNodeMap[employee.Id]);
+                }
+            }
+
+            employeeHierarchyTree.Nodes.Clear();
+            employeeHierarchyTree.Nodes.AddRange(rootNodes.ToArray());
+            employeeHierarchyTree.ExpandAll();
+        }
+
         private async Task LoadAllData()
         {
             await GetUsersForOnboarding();
             await GetMembers();
             await GetAttendencesToday();
+            SetupEmployeeHierarchyTree();
         }
 
         private async Task GetUsersForOnboarding()
@@ -64,7 +95,8 @@ namespace wellmanage.hrm.client
         private async Task GetMembers()
         {
             members = await _employeeService.GetEmployeesWithUserInformation();
-            membersGridData.DataSource = members;
+      
+            membersGridData.DataSource = members.Where(item=> item.Name.Contains(textBox4.Text) && item.Email.Contains(textBox3.Text)).ToList();
             foreach (DataGridViewColumn column in membersGridData.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -79,7 +111,7 @@ namespace wellmanage.hrm.client
             foreach (DataGridViewColumn column in attendancesGrid.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                column.FillWeight = 1; 
+                column.FillWeight = 1;
             }
         }
 
@@ -91,7 +123,7 @@ namespace wellmanage.hrm.client
                 e.Value = localTime.ToString("g");
                 e.FormattingApplied = true;
 
-               
+
                 if (attendancesGrid.Columns[e.ColumnIndex].Name == "CheckInTime")
                 {
                     var lateTime = new TimeSpan(9, 30, 0); // 9:30 AM
@@ -187,6 +219,36 @@ namespace wellmanage.hrm.client
         private void dataGridView2_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void EmployeeHierarchyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.empHierarchyPanel.BringToFront();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void onBoardingPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MembersSearchBtn_Click(object sender, EventArgs e)
+        {
+            GetMembers();
         }
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AutoMapper.Execution;
+using AutoMapper.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Org.BouncyCastle.Asn1.Ocsp;
 using wellmanage.application.Interfaces;
@@ -21,6 +23,7 @@ namespace wellmanage.hrm.client
     {
         private readonly IEmployeeService _employeeService;
         private List<EmployeeDto> members = new List<EmployeeDto>();
+        EmployeeDto defaultItem = new EmployeeDto(null, "Select");
         private UserInfo selectedUser;
 
         public EmployeeUpdateForm(UserInfo selectedUser)
@@ -37,12 +40,18 @@ namespace wellmanage.hrm.client
 
         public async Task GetMembers()
         {
-            var employees = await _employeeService.GetEmployeesWithUserInformation();
-            members = employees.Where(item => item.UserId != selectedUser.Id).ToList();
-            teamLeadCombobox.DataSource = members;
-            teamLeadCombobox.DisplayMember = "Name"; // Replace with the actual display property
-            teamLeadCombobox.ValueMember = "Id";
-            members.ForEach(member => assigniesListBox.Items.Add(member));
+            try
+            {
+                var employees = await _employeeService.GetEmployeesWithUserInformation();
+                members = employees.Where(item => item.UserId != selectedUser.Id).ToList();
+                teamLeadCombobox.DataSource = (new List<EmployeeDto> { defaultItem }).Concat(members).ToList();
+                members.ForEach(member => assigniesListBox.Items.Add(member));
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -68,7 +77,7 @@ namespace wellmanage.hrm.client
                 Department = departmentCombobox.SelectedItem?.ToString(),
                 JoiningDate = joiningDateTimePicker.Value,
                 Designation = designationCombobox.SelectedItem?.ToString(),
-                TeamLeadId = teamLeadCombobox.SelectedValue as long?,
+                TeamLeadId = (teamLeadCombobox.SelectedValue as EmployeeDto).Id,
                 Assignies = GetSelectedAssignies()
             };
 
@@ -166,7 +175,7 @@ namespace wellmanage.hrm.client
             {
                 if (item is EmployeeDto employee)
                 {
-                    selectedAssignies.Add(employee.Id);
+                    selectedAssignies.Add(employee.Id.Value);
                 }
             }
 
