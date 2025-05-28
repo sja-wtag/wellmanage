@@ -46,8 +46,11 @@
             label1 = new Label();
             label3 = new Label();
             empHierarchyPanel = new Panel();
+            hierarchylabel = new Label();
+            button4 = new Button();
             employeeHierarchyTree = new TreeView();
             attendencePanel = new Panel();
+            button3 = new Button();
             label10 = new Label();
             attendancesGrid = new DataGridView();
             onBoardingPanel = new Panel();
@@ -238,27 +241,59 @@
             // 
             // empHierarchyPanel
             // 
+            empHierarchyPanel.Controls.Add(hierarchylabel);
+            empHierarchyPanel.Controls.Add(button4);
             empHierarchyPanel.Controls.Add(employeeHierarchyTree);
             empHierarchyPanel.Location = new Point(0, 45);
             empHierarchyPanel.Name = "empHierarchyPanel";
             empHierarchyPanel.Size = new Size(788, 377);
             empHierarchyPanel.TabIndex = 5;
             // 
+            // hierarchylabel
+            // 
+            hierarchylabel.AutoSize = true;
+            hierarchylabel.Location = new Point(334, 11);
+            hierarchylabel.Name = "hierarchylabel";
+            hierarchylabel.Size = new Size(113, 15);
+            hierarchylabel.TabIndex = 4;
+            hierarchylabel.Text = "Employee Hierarchy";
+            // 
+            // button4
+            // 
+            button4.Location = new Point(645, 68);
+            button4.Name = "button4";
+            button4.Size = new Size(110, 45);
+            button4.TabIndex = 3;
+            button4.Text = "Load Data";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += loadHierarchyClick;
+            // 
             // employeeHierarchyTree
             // 
-            employeeHierarchyTree.Location = new Point(86, 119);
+            employeeHierarchyTree.Location = new Point(63, 133);
             employeeHierarchyTree.Name = "employeeHierarchyTree";
-            employeeHierarchyTree.Size = new Size(531, 153);
+            employeeHierarchyTree.Size = new Size(695, 216);
             employeeHierarchyTree.TabIndex = 0;
             // 
             // attendencePanel
             // 
+            attendencePanel.Controls.Add(button3);
             attendencePanel.Controls.Add(label10);
             attendencePanel.Controls.Add(attendancesGrid);
             attendencePanel.Location = new Point(3, 45);
             attendencePanel.Name = "attendencePanel";
             attendencePanel.Size = new Size(785, 377);
             attendencePanel.TabIndex = 4;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(642, 41);
+            button3.Name = "button3";
+            button3.Size = new Size(110, 38);
+            button3.TabIndex = 2;
+            button3.Text = "Load Data";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // label10
             // 
@@ -272,9 +307,9 @@
             // attendancesGrid
             // 
             attendancesGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            attendancesGrid.Location = new Point(24, 77);
+            attendancesGrid.Location = new Point(24, 112);
             attendancesGrid.Name = "attendancesGrid";
-            attendancesGrid.Size = new Size(728, 228);
+            attendancesGrid.Size = new Size(728, 193);
             attendancesGrid.TabIndex = 0;
             attendancesGrid.CellContentClick += dataGridView2_CellContentClick_1;
             attendancesGrid.CellFormatting += AttendancesGrid_CellFormatting;
@@ -293,19 +328,19 @@
             // 
             // button2
             // 
-            button2.Location = new Point(660, 172);
+            button2.Location = new Point(645, 161);
             button2.Name = "button2";
-            button2.Size = new Size(75, 29);
+            button2.Size = new Size(110, 45);
             button2.TabIndex = 4;
             button2.Text = "Search";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button2.Click += membersSearch_Click;
             // 
             // button1
             // 
-            button1.Location = new Point(660, 244);
+            button1.Location = new Point(645, 244);
             button1.Name = "button1";
-            button1.Size = new Size(75, 28);
+            button1.Size = new Size(110, 43);
             button1.TabIndex = 2;
             button1.Text = "OnBoard";
             button1.UseVisualStyleBackColor = true;
@@ -383,9 +418,9 @@
             // 
             // membersSearchBtn
             // 
-            membersSearchBtn.Location = new Point(668, 62);
+            membersSearchBtn.Location = new Point(633, 52);
             membersSearchBtn.Name = "membersSearchBtn";
-            membersSearchBtn.Size = new Size(75, 29);
+            membersSearchBtn.Size = new Size(110, 54);
             membersSearchBtn.TabIndex = 9;
             membersSearchBtn.Text = "Search";
             membersSearchBtn.UseVisualStyleBackColor = true;
@@ -415,11 +450,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 443);
             Controls.Add(menuStrip1);
-            Controls.Add(onBoardingPanel);
-            Controls.Add(membersPanel);
             Controls.Add(attendencePanel);
             Controls.Add(empHierarchyPanel);
             Controls.Add(homePanel);
+            Controls.Add(onBoardingPanel);
+            Controls.Add(membersPanel);
             MainMenuStrip = menuStrip1;
             Name = "HomeForm";
             Text = "Home";
@@ -435,6 +470,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             empHierarchyPanel.ResumeLayout(false);
+            empHierarchyPanel.PerformLayout();
             attendencePanel.ResumeLayout(false);
             attendencePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)attendancesGrid).EndInit();
@@ -486,5 +522,8 @@
         private TextBox textBox3;
         private TextBox textBox4;
         private Button membersSearchBtn;
+        private Button button4;
+        private Button button3;
+        private Label hierarchylabel;
     }
 }

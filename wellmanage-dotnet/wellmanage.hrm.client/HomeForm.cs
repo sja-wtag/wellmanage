@@ -70,7 +70,7 @@ namespace wellmanage.hrm.client
             await GetUsersForOnboarding();
             await GetMembers();
             await GetAttendencesToday();
-            SetupEmployeeHierarchyTree();
+            await SetupEmployeeHierarchyTree();
         }
 
         private async Task GetUsersForOnboarding()
@@ -95,8 +95,8 @@ namespace wellmanage.hrm.client
         private async Task GetMembers()
         {
             members = await _employeeService.GetEmployeesWithUserInformation();
-      
-            membersGridData.DataSource = members.Where(item=> item.Name.Contains(textBox4.Text) && item.Email.Contains(textBox3.Text)).ToList();
+
+            membersGridData.DataSource = members.Where(item => item.Name.Contains(textBox4.Text) && item.Email.Contains(textBox3.Text)).ToList();
             foreach (DataGridViewColumn column in membersGridData.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -226,9 +226,9 @@ namespace wellmanage.hrm.client
             this.empHierarchyPanel.BringToFront();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void membersSearch_Click(object sender, EventArgs e)
         {
-
+            GetUsersForOnboarding();
         }
 
         private void label11_Click(object sender, EventArgs e)
@@ -249,6 +249,16 @@ namespace wellmanage.hrm.client
         private void MembersSearchBtn_Click(object sender, EventArgs e)
         {
             GetMembers();
+        }
+
+        private void loadHierarchyClick(object sender, EventArgs e)
+        {
+            SetupEmployeeHierarchyTree();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            GetAttendencesToday();
         }
     }
 }
