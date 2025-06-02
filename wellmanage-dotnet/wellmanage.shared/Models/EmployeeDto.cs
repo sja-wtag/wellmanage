@@ -11,8 +11,16 @@ namespace wellmanage.shared.Models
 {
     public class EmployeeDto
     {
+        public EmployeeDto() 
+        {
+        }
+        public EmployeeDto(int? id, string name)
+        {
+            Id = id;
+            Name = name;
+        }   
         [Browsable(false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string Name { get; set; }
         public string? Department { get; set; }
         public DateTime JoiningDate { get; set; }

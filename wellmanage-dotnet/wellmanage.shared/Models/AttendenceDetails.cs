@@ -10,7 +10,7 @@ namespace wellmanage.shared.Models
     {
         public DateTime? LastCheckInAt { get; set; }
         public DateTime? LastCheckOutAt { get; set; }
-        public bool IsAlreadyCheckedIn => LastCheckInAt.HasValue;
+        public bool IsAlreadyCheckedIn => LastCheckInAt.HasValue && !IsAlreadyCheckedOut;
         public bool IsAlreadyCheckedOut => LastCheckOutAt.HasValue;
         public TimeSpan TotalWorkTime { get; set; }
     }

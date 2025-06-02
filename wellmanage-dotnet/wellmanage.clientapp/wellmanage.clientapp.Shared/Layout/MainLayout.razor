@@ -1,29 +1,35 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using wellmanage.clientapp.Shared.Pages
+@using wellmanage.clientapp.Shared.Services
+@using System.Timers
+@using wellmanage.shared.Models
 @inherits LayoutComponentBase
+@inject AttendenceService attendenceService
+@implements IDisposable
 <MudThemeProvider/>
-<MudPopoverProvider />
+<MudPopoverProvider/>
 
 <AuthorizeView>
     <Authorized>
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu/>
+            </div>
 
-    <main>
-        <div class="top-row px-4">
-            
-                    <div> Hello, @context.User.Identity?.Name!</div>
-                    <a href="/logout">Logout</a>
-                
+            <main>
+                <div class="top-row">
+                    <div class="h3">@worktime.ToString(@"hh\:mm\:ss")</div>
+                    <div class="right-items">
+                        <div>Hello, @context.User.Identity?.Name!</div>
+                        <a href="/logout">Logout</a>
+                    </div>
+                </div>
+
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
         </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
     </Authorized>
     <NotAuthorized>
         <RedirectToLogin></RedirectToLogin>
@@ -35,3 +41,61 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code
+{
+    private Timer timer;
+    private TimeSpan worktime = TimeSpan.Zero;
+
+    protected override void OnInitialized()
+    {
+        attendenceService.OnAttendenceChanged += OnAttendanceChanged;
+        base.OnInitialized();
+    }
+
+    public void OnAttendanceChanged(AttendanceStatus attendanceStatus)
+    {
+        if (attendanceStatus != null)
+        {
+            worktime = attendanceStatus.TotalWorkTime;
+            if (attendanceStatus.IsAlreadyCheckedOut && timer != null && timer.Enabled)
+            {
+                timer.Enabled = false;
+            }
+
+            if (attendanceStatus.IsAlreadyCheckedIn && !attendanceStatus.IsAlreadyCheckedOut)
+            {
+                if (timer == null)
+                {
+                    CreateTimer();
+                }
+
+                if (!timer.Enabled)
+                {
+                    timer.Enabled = true;
+                }
+            }
+        }
+        StateHasChanged();
+    }
+
+    public void CreateTimer()
+    {
+        timer = new Timer();
+        timer.Enabled = true;
+        timer.Interval = 1000;
+        timer.Elapsed += OnTimerElapsed;
+    }
+
+    public async void OnTimerElapsed(object sender, EventArgs e)
+    {
+        worktime = worktime.Add(TimeSpan.FromSeconds(1));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        attendenceService.OnAttendenceChanged -= OnAttendanceChanged;
+        timer?.Dispose();
+    }
+}
