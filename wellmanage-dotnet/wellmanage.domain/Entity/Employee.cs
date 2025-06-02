@@ -14,9 +14,10 @@ namespace wellmanage.domain.Entity
 
         [Key]
         public long Id { get; set; }
-
+        [MaxLength(50, ErrorMessage = "Department cannot be more than 50 characters.")]
         public string? Department { get; set; }
         public DateTime JoiningDate { get; set; }
+        [MaxLength(80, ErrorMessage = "Designation cannot be more than 50 characters.")]
         public string? Designation { get; set; }
 
         [ForeignKey("TeamLead")]

@@ -9,6 +9,9 @@ public class DataContext : IdentityDbContext<User, IdentityRole<long>, long>
 {
     public DbSet<Attendance> Attendances { get; set; }
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Project> Projects { get; set; }
+
+    public DbSet<ProjectTask> ProjectTasks { get; set; }
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
 
