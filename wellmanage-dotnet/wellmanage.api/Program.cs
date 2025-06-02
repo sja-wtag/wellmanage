@@ -6,13 +6,14 @@ using AutoMapper;
 using wellmanage.api.Controllers;
 using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
+using wellmanage.MappingProfile;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
 
 #region AutoMapper
-builder.Services.AddAutoMapper(typeof(AuthenticationController), typeof(AuthenticationService));
+builder.Services.AddAutoMapper(typeof(AuthenticationController), typeof(AuthenticationService), typeof(MappingProfile));
 #endregion
 
 #region DI
