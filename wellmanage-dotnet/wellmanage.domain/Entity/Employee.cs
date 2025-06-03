@@ -32,6 +32,8 @@ namespace wellmanage.domain.Entity
         [ForeignKey("User")]
         public long UserId { get; set; }
         public User User { get; set; }
+
+        public List<Project> Projects { get; set; } = new List<Project>();
     }
 
 }
