@@ -15,6 +15,7 @@ namespace wellmanage.application.Interfaces
         Task<ProjectTask> CreateAsync(CreateProjectTaskDto dto);
         Task<bool> UpdateAsync(int id, CreateProjectTaskDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<List<ProjectTask>> GetProjectTasksForEmployeeAsync(long projectId, long employeeId);
     }
 
 }

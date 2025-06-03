@@ -73,6 +73,13 @@ namespace wellmanage.application.Services
             await _projectTaskRepository.DeleteAsync(task);
             return true;
         }
+
+        public async Task<List<ProjectTask>> GetProjectTasksForEmployeeAsync(long projectId, long employeeId)
+        {  
+            var tasks = await _projectTaskRepository.GetProjectBasedEmployeeAssignedTasks(projectId, employeeId);
+
+            return tasks;
+        }
     }
 
 }

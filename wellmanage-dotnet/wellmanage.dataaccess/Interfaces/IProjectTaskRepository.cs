@@ -9,5 +9,6 @@ namespace wellmanage.data.Interfaces
 {
     public interface IProjectTaskRepository : IGenericRepository<ProjectTask>
     {
+        Task<List<ProjectTask>> GetProjectBasedEmployeeAssignedTasks(long projectId, long assignedUserId);
     }
 }
