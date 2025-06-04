@@ -15,12 +15,14 @@ namespace wellmanage.application.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmployeeRepository employeeRepository, IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepository, IUserRepository userRepository,IProjectRepository projectRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -30,22 +32,52 @@ namespace wellmanage.application.Services
             try
             {
                 var user = await _userRepository.GetAsync(request.UserId);
-                var employee = new Employee();
-                _mapper.Map(request, employee);
-                employee.User = user;
-                foreach (long id in request.Assignies) 
+                if (user == null)
+                    throw new Exception($"User with ID {request.UserId} not found.");
+
+
+                var employee = new Employee
                 {
-                    var assignee = await _employeeRepository.GetAsync(id);
-                    employee.Assignees.Add(assignee);
+                    UserId = request.UserId,
+                    Department = request.Department,
+                    JoiningDate = request.JoiningDate,
+                    Designation = request.Designation,
+                    TeamLeadId = request.TeamLeadId,
+                    User = user
+                };
+
+                if (request.Assignies != null && request.Assignies.Any())
+                {
+                    foreach (var assigneeId in request.Assignies)
+                    {
+                        var assignee = new Employee { Id = assigneeId };
+                        _employeeRepository.Attach(assignee); 
+                        employee.Assignees.Add(assignee);
+                    }
                 }
+
+
+                if (request.Projects != null && request.Projects.Any())
+                {
+                    foreach (var projectId in request.Projects)
+                    {
+                        var project = new Project { ProjectId = projectId };
+                        _projectRepository.Attach(project); 
+                        employee.Projects.Add(project);
+                    }
+                }
+
+
                 await _employeeRepository.SaveAsync(employee);
                 await _unitOfWork.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                throw;
+                throw new ApplicationException("Error while adding employee.", ex);
             }
         }
+
+
 
         public async Task<List<EmployeeDto>> GetEmployeesWithUserInformation()
         {

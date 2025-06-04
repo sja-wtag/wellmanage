@@ -34,11 +34,7 @@ namespace wellmanage.shared.Models
         [Browsable(false)]
         public UserInfo User { get; set; }
         public string Email => User?.Email;
-
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name ?? string.Empty;
     }
 }
 

@@ -22,18 +22,38 @@ namespace wellmanage.hrm.client
     public partial class EmployeeUpdateForm : Form
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IProjectService _projectService;
         private List<EmployeeDto> members = new List<EmployeeDto>();
+        private List<ProjectDto> projects = new List<ProjectDto>();
+        EmployeeDto selectedEmployee = null;
         EmployeeDto defaultItem = new EmployeeDto(null, "Select");
         private UserInfo selectedUser;
 
         public EmployeeUpdateForm(UserInfo selectedUser)
         {
             _employeeService = ServiceContainer.Services.GetRequiredService<IEmployeeService>();
+            _projectService = ServiceContainer.Services.GetRequiredService<IProjectService>();
             this.selectedUser = selectedUser;
+            InitData();
+            
+        }
+
+        public EmployeeUpdateForm(EmployeeDto employeeDto)
+        {
+            _employeeService = ServiceContainer.Services.GetRequiredService<IEmployeeService>();
+            _projectService = ServiceContainer.Services.GetRequiredService<IProjectService>();
+            this.selectedUser = employeeDto.User;
+            this.selectedEmployee = employeeDto;
+            InitData();
+        }
+
+        public async Task InitData()
+        {
             InitializeComponent();
-            GetMembers();
+            await GetMembers();
             LoadDesignations();
             LoadDepartments();
+            await LoadProjects();
             comboBox3.DataSource = Enum.GetValues(typeof(StatusEnum));
             comboBox3.SelectedItem = selectedUser.Status;
         }
@@ -45,13 +65,13 @@ namespace wellmanage.hrm.client
                 var employees = await _employeeService.GetEmployeesWithUserInformation();
                 members = employees.Where(item => item.UserId != selectedUser.Id).ToList();
                 teamLeadCombobox.DataSource = (new List<EmployeeDto> { defaultItem }).Concat(members).ToList();
+                teamLeadCombobox.SelectedItem = members.Find(item => item.Id == selectedEmployee?.TeamLeadId);
                 members.ForEach(member => assigniesListBox.Items.Add(member));
             }
             catch (Exception ex)
             {
 
             }
-           
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -77,8 +97,9 @@ namespace wellmanage.hrm.client
                 Department = departmentCombobox.SelectedItem?.ToString(),
                 JoiningDate = joiningDateTimePicker.Value,
                 Designation = designationCombobox.SelectedItem?.ToString(),
-                TeamLeadId = (teamLeadCombobox.SelectedValue as EmployeeDto).Id,
-                Assignies = GetSelectedAssignies()
+                TeamLeadId = (teamLeadCombobox.SelectedValue as EmployeeDto)?.Id,
+                Assignies = GetSelectedAssignies(),
+                Projects = GetSelectedProjects()
             };
 
             var errorMsg = ValidateSubmission(request);
@@ -149,6 +170,14 @@ namespace wellmanage.hrm.client
             departmentCombobox.DataSource = departments;
         }
 
+        private async Task LoadProjects()
+        {
+            projects = (List<ProjectDto>)await _projectService.GetAllProjectsAsync();
+            projectListBox.Items.Clear(); 
+            projects.ForEach(project => projectListBox.Items.Add(project));
+        }
+
+
         private string ValidateSubmission(EmployeeSaveRequest request)
         {
             string errorMessage = null;
@@ -182,5 +211,33 @@ namespace wellmanage.hrm.client
             return selectedAssignies;
         }
 
+        private List<long> GetSelectedProjects()
+        {
+            var selectedProjects = new List<long>();
+            foreach (var item in projectListBox.CheckedItems)
+            {
+                if (item is ProjectDto project)
+                {
+                    selectedProjects.Add(project.Id);
+                }
+            }
+
+            return selectedProjects;
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -78,6 +78,8 @@ namespace wellmanage.hrm.client.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
             return services;
         }
     }

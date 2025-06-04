@@ -32,8 +32,8 @@ namespace wellmanage.data.Repositories
                 UserId = emp.UserId,
                 TeamLead = new EmployeeDto()
                 {
-                    Id = emp.Id,
-                    Name = emp.User.FullName
+                    Id = emp.TeamLeadId,
+                    Name = emp.TeamLead.User.FullName
                 },
                 User = new UserInfo()
                 {
