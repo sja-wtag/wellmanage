@@ -21,7 +21,7 @@ namespace wellmanage.data.Repositories
 
         public async Task<List<EmployeeDto>> GetEmployeesWithUserInformation()
         {
-            var employees = await _dataContext.Employees.Include(emp => emp.User).Include(emp=> emp.TeamLead).Select(emp => new EmployeeDto()
+            var employees = await _dataContext.Employees.Include(emp => emp.User).Include(emp=> emp.Assignees).Include(emp => emp.TeamLead).Include(emp => emp.Projects).Select(emp => new EmployeeDto()
             {
                 Id = emp.Id,
                 Name = emp.User.FullName,
@@ -32,15 +32,25 @@ namespace wellmanage.data.Repositories
                 UserId = emp.UserId,
                 TeamLead = new EmployeeDto()
                 {
-                    Id = emp.Id,
-                    Name = emp.User.FullName
+                    Id = emp.TeamLeadId,
+                    Name = emp.TeamLead.User.FullName
                 },
                 User = new UserInfo()
                 {
                     Id = emp.User.Id,
                     FullName = emp.User.FullName,
                     Email = emp.User.Email
-                }
+                },
+                Assignees = emp.Assignees.Select(emp => new EmployeeDto()
+                {
+                    Id = emp.Id,
+                    Name = emp.User.FullName
+                }).ToList(),
+                Projects = emp.Projects.Select(p=> new ProjectDto()
+                {
+                    Id = p.ProjectId,
+                    Name = p.Name
+                }).ToList()
             }).ToListAsync();
             return employees;
         }

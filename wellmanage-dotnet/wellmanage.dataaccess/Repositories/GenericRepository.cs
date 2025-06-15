@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using wellmanage.data.Data;
 using wellmanage.data.Interfaces;
+using wellmanage.domain.Entity;
 
 namespace wellmanage.data.Repositories
 {
@@ -54,6 +55,11 @@ namespace wellmanage.data.Repositories
         public void DetachState(T entity)
         {
             _databaseContext.Entry(entity).State = EntityState.Detached;
+        }
+
+        public void Attach(T entity)
+        {
+            _databaseContext.Attach(entity);
         }
 
         public void AttachState(T entity)

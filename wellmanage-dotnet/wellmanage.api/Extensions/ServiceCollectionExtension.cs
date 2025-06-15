@@ -80,5 +80,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IProjectTaskService, ProjectTaskService>();
         services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
+        services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
     }
 }
