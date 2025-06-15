@@ -35,7 +35,7 @@ namespace wellmanage.hrm.client
             _projectService = ServiceContainer.Services.GetRequiredService<IProjectService>();
             this.selectedUser = selectedUser;
             InitData();
-            
+
         }
 
         public EmployeeUpdateForm(EmployeeDto employeeDto)
@@ -64,9 +64,17 @@ namespace wellmanage.hrm.client
             {
                 var employees = await _employeeService.GetEmployeesWithUserInformation();
                 members = employees.Where(item => item.UserId != selectedUser.Id).ToList();
-                teamLeadCombobox.DataSource = (new List<EmployeeDto> { defaultItem }).Concat(members).ToList();
+                teamLeadCombobox.DataSource = members;
                 teamLeadCombobox.SelectedItem = members.Find(item => item.Id == selectedEmployee?.TeamLeadId);
-                members.ForEach(member => assigniesListBox.Items.Add(member));
+                foreach (var member in members)
+                {
+                    int index = assigniesListBox.Items.Add(member);
+
+                    if (selectedEmployee?.Assignees?.Any(a => a.Id == member.Id) == true)
+                    {
+                        assigniesListBox.SetItemChecked(index, true);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -120,11 +128,6 @@ namespace wellmanage.hrm.client
             MessageBox.Show("Employee Added Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-        }
-
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -173,9 +176,18 @@ namespace wellmanage.hrm.client
         private async Task LoadProjects()
         {
             projects = (List<ProjectDto>)await _projectService.GetAllProjectsAsync();
-            projectListBox.Items.Clear(); 
-            projects.ForEach(project => projectListBox.Items.Add(project));
+            projectListBox.Items.Clear();
+
+            foreach (var project in projects)
+            {
+                int index = projectListBox.Items.Add(project);
+                if (selectedEmployee?.Projects?.Any(item => item.Id == project.Id) == true)
+                {
+                    projectListBox.SetItemChecked(index, true);
+                }
+            }
         }
+
 
 
         private string ValidateSubmission(EmployeeSaveRequest request)
@@ -238,6 +250,11 @@ namespace wellmanage.hrm.client
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 }

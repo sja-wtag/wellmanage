@@ -69,7 +69,6 @@ namespace wellmanage.hrm.client
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(191, 23);
             textBox1.TabIndex = 1;
-            textBox1.Text = selectedUser.FullName;
             // 
             // label2
             // 
@@ -88,7 +87,6 @@ namespace wellmanage.hrm.client
             textBox3.ReadOnly = true;
             textBox3.Size = new Size(192, 23);
             textBox3.TabIndex = 5;
-            textBox3.Text = selectedUser.Email;
             // 
             // label3
             // 
@@ -203,6 +201,7 @@ namespace wellmanage.hrm.client
             button2.TabIndex = 19;
             button2.Text = "Close";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += Button2_Click;
             // 
             // assigniesListBox
             // 
