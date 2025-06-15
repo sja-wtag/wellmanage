@@ -67,6 +67,7 @@
             membersSearchBtn = new Button();
             label9 = new Label();
             membersGridData = new DataGridView();
+            button5 = new Button();
             menuStrip1.SuspendLayout();
             homePanel.SuspendLayout();
             panel3.SuspendLayout();
@@ -371,6 +372,7 @@
             // 
             // membersPanel
             // 
+            membersPanel.Controls.Add(button5);
             membersPanel.Controls.Add(label13);
             membersPanel.Controls.Add(label14);
             membersPanel.Controls.Add(textBox3);
@@ -418,9 +420,9 @@
             // 
             // membersSearchBtn
             // 
-            membersSearchBtn.Location = new Point(633, 52);
+            membersSearchBtn.Location = new Point(495, 59);
             membersSearchBtn.Name = "membersSearchBtn";
-            membersSearchBtn.Size = new Size(110, 54);
+            membersSearchBtn.Size = new Size(110, 38);
             membersSearchBtn.TabIndex = 9;
             membersSearchBtn.Text = "Search";
             membersSearchBtn.UseVisualStyleBackColor = true;
@@ -443,6 +445,18 @@
             membersGridData.Size = new Size(725, 242);
             membersGridData.TabIndex = 1;
             membersGridData.CellContentClick += dataGridView2_CellContentClick;
+            membersGridData.SelectionChanged += MembersGridData_SelectionChanged;
+            membersGridData.CellFormatting += MembersGridData_CellFormatting;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(633, 59);
+            button5.Name = "button5";
+            button5.Size = new Size(110, 38);
+            button5.TabIndex = 14;
+            button5.Text = "Edit";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // HomeForm
             // 
@@ -450,11 +464,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 443);
             Controls.Add(menuStrip1);
+            Controls.Add(membersPanel);
             Controls.Add(attendencePanel);
             Controls.Add(empHierarchyPanel);
             Controls.Add(homePanel);
             Controls.Add(onBoardingPanel);
-            Controls.Add(membersPanel);
             MainMenuStrip = menuStrip1;
             Name = "HomeForm";
             Text = "Home";
@@ -525,5 +539,6 @@
         private Button button4;
         private Button button3;
         private Label hierarchylabel;
+        private Button button5;
     }
 }

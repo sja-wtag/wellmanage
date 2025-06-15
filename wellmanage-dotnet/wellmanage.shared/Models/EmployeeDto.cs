@@ -28,17 +28,14 @@ namespace wellmanage.shared.Models
         [Browsable(false)]
         public long? TeamLeadId { get; set; }
         public EmployeeDto? TeamLead { get; set; }
-        public List<EmployeeDto> Assignies { get; set; } = new List<EmployeeDto>();
+        public List<EmployeeDto> Assignees { get; set; } = new List<EmployeeDto>();
         [Browsable(false)]
         public long UserId { get; set; }
         [Browsable(false)]
         public UserInfo User { get; set; }
         public string Email => User?.Email;
-
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name ?? string.Empty;
+        public List<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
     }
 }
 

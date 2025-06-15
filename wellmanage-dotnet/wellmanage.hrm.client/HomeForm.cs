@@ -21,6 +21,7 @@ namespace wellmanage.hrm.client
         private readonly IUserService _userService;
         private readonly IEmployeeService _employeeService;
         private UserInfo? userInfo = null;
+        private EmployeeDto? employeeInfo = null;
         private List<EmployeeDto> members = new List<EmployeeDto>();
         private List<AttendanceDto> attendances = new List<AttendanceDto>();
         private long onboardingCount = 0;
@@ -259,6 +260,22 @@ namespace wellmanage.hrm.client
         private void button3_Click(object sender, EventArgs e)
         {
             GetAttendencesToday();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            EmployeeUpdateForm empform = new EmployeeUpdateForm(employeeInfo);
+            empform.Show();
+        }
+
+        private void MembersGridData_SelectionChanged(object sender, EventArgs e)
+        {
+            employeeInfo = membersGridData.CurrentRow?.DataBoundItem as EmployeeDto;
+        }
+
+        private void MembersGridData_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+         
         }
     }
 }

@@ -49,6 +49,8 @@ namespace wellmanage.hrm.client
             button1 = new Button();
             button2 = new Button();
             assigniesListBox = new CheckedListBox();
+            label9 = new Label();
+            projectListBox = new CheckedListBox();
             SuspendLayout();
             // 
             // label1
@@ -67,7 +69,6 @@ namespace wellmanage.hrm.client
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(191, 23);
             textBox1.TabIndex = 1;
-            textBox1.Text = selectedUser.FullName;
             // 
             // label2
             // 
@@ -86,7 +87,6 @@ namespace wellmanage.hrm.client
             textBox3.ReadOnly = true;
             textBox3.Size = new Size(192, 23);
             textBox3.TabIndex = 5;
-            textBox3.Text = selectedUser.Email;
             // 
             // label3
             // 
@@ -97,11 +97,11 @@ namespace wellmanage.hrm.client
             label3.TabIndex = 4;
             label3.Text = "Status";
             // 
-            // comboBox1
+            // departmentCombobox
             // 
             departmentCombobox.FormattingEnabled = true;
             departmentCombobox.Location = new Point(266, 142);
-            departmentCombobox.Name = "comboBox1";
+            departmentCombobox.Name = "departmentCombobox";
             departmentCombobox.Size = new Size(192, 23);
             departmentCombobox.TabIndex = 6;
             // 
@@ -128,16 +128,16 @@ namespace wellmanage.hrm.client
             label6.AutoSize = true;
             label6.Location = new Point(26, 217);
             label6.Name = "label6";
-            label6.Size = new Size(63, 15);
+            label6.Size = new Size(64, 15);
             label6.TabIndex = 11;
             label6.Text = "Team Lead";
             label6.Click += label6_Click;
             // 
-            // comboBox2
+            // teamLeadCombobox
             // 
             teamLeadCombobox.FormattingEnabled = true;
             teamLeadCombobox.Location = new Point(12, 251);
-            teamLeadCombobox.Name = "comboBox2";
+            teamLeadCombobox.Name = "teamLeadCombobox";
             teamLeadCombobox.Size = new Size(191, 23);
             teamLeadCombobox.TabIndex = 10;
             teamLeadCombobox.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
@@ -150,10 +150,10 @@ namespace wellmanage.hrm.client
             comboBox3.Size = new Size(192, 23);
             comboBox3.TabIndex = 12;
             // 
-            // dateTimePicker1
+            // joiningDateTimePicker
             // 
             joiningDateTimePicker.Location = new Point(26, 139);
-            joiningDateTimePicker.Name = "dateTimePicker1";
+            joiningDateTimePicker.Name = "joiningDateTimePicker";
             joiningDateTimePicker.Size = new Size(191, 23);
             joiningDateTimePicker.TabIndex = 13;
             // 
@@ -175,11 +175,11 @@ namespace wellmanage.hrm.client
             label8.TabIndex = 16;
             label8.Text = "Assignies";
             // 
-            // comboBox4
+            // designationCombobox
             // 
             designationCombobox.FormattingEnabled = true;
             designationCombobox.Location = new Point(503, 142);
-            designationCombobox.Name = "comboBox4";
+            designationCombobox.Name = "designationCombobox";
             designationCombobox.Size = new Size(192, 23);
             designationCombobox.TabIndex = 17;
             // 
@@ -201,20 +201,42 @@ namespace wellmanage.hrm.client
             button2.TabIndex = 19;
             button2.Text = "Close";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += Button2_Click;
             // 
-            // checkedListBox1
+            // assigniesListBox
             // 
             assigniesListBox.FormattingEnabled = true;
             assigniesListBox.Location = new Point(266, 235);
-            assigniesListBox.Name = "checkedListBox1";
+            assigniesListBox.Name = "assigniesListBox";
             assigniesListBox.Size = new Size(185, 94);
             assigniesListBox.TabIndex = 15;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(545, 217);
+            label9.Name = "label9";
+            label9.Size = new Size(49, 15);
+            label9.TabIndex = 21;
+            label9.Text = "Projects";
+            label9.Click += label9_Click;
+            // 
+            // projectListBox
+            // 
+            projectListBox.FormattingEnabled = true;
+            projectListBox.Location = new Point(543, 235);
+            projectListBox.Name = "projectListBox";
+            projectListBox.Size = new Size(185, 94);
+            projectListBox.TabIndex = 20;
+            projectListBox.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
             // 
             // EmployeeUpdateForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label9);
+            Controls.Add(projectListBox);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(designationCombobox);
@@ -259,5 +281,7 @@ namespace wellmanage.hrm.client
         private Button button1;
         private Button button2;
         private CheckedListBox assigniesListBox;
+        private Label label9;
+        private CheckedListBox projectListBox;
     }
 }
