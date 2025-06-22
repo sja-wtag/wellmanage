@@ -1,0 +1,45 @@
+﻿@page "/projects"
+@using wellmanage.clientapp.Shared.Services
+@using wellmanage.shared.Models
+
+<h3>Projects</h3>
+
+<div class="container mt-3">
+    @if (projects == null)
+    {
+        <p><em>Loading projects...</em></p>
+    }
+    else if (!projects.Any())
+    {
+        <p>No projects assigned.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var project in projects)
+            {
+                <li>
+                    <strong>@project.Name</strong><br />
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+
+@code {
+    [Inject]
+    private EmployeeService employeeService { get; set; }
+
+    private List<ProjectDto> projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProjects();
+    }
+
+    private async Task LoadProjects()
+    {
+        projects = await employeeService.GetProjectsAssignedToEmployee();
+    }
+}

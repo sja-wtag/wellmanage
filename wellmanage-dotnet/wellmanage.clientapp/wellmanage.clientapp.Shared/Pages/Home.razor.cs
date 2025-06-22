@@ -13,15 +13,23 @@ namespace wellmanage.clientapp.Shared.Pages
     {
         [Inject]
         AttendenceService attendenceService { get; set; }
+        [Inject]
+        UserService userService { get; set; }
         AttendanceStatus currentAttendenceStatus;
         protected override void OnInitialized()
         {
            LoadAttendenceStatus();
+           LoadEmployeeDetails();
         }
 
         public async Task LoadAttendenceStatus()
         {
             currentAttendenceStatus = await attendenceService.GetAttendenceStatus();
+        }
+
+        public async Task LoadEmployeeDetails()
+        {
+            await userService.GetEmployeeDetailsByUserId();
         }
     }
 }

@@ -1,0 +1,4 @@
+﻿/* Add this to your site stylesheet or a scoped CSS file */
+.ql-editor {
+    min-height: 300px; /* or use height: 300px; if you want a fixed height */
+}

@@ -1,0 +1,192 @@
+﻿@page "/create-task"
+@page "/edit-task/{TaskId:long}"
+@using MudBlazor
+@using wellmanage.shared.Enums
+@using wellmanage.shared.Models
+@using Blazored.TextEditor
+
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@using System.Net.Http.Json
+@using Services
+
+<PageTitle>@(IsEditMode ? "Edit Task" : "Create Task")</PageTitle>
+
+<MudPaper Class="p-4">
+	<MudText Typo="Typo.h5">@(IsEditMode == null ? "Edit Task" : "Create Task")</MudText>
+	<MudForm @ref="form" Valid="isValid">
+		<MudTextField Class="my-3" T="string" Label="Title" @bind-Value="task.Title" For="@(() => task.Title)" Required="true" MaxLength="8000" RequiredError="Title is Required"/>
+
+		<MudText Class="my-3" Typo="Typo.subtitle2">Description</MudText>
+		<BlazoredTextEditor @ref="richTextEditor" EditorCssStyle="height:500px; border:1px solid #ccc;">
+			<ToolbarContent>
+				<select class="ql-header">
+					<option selected=""></option>
+					<option value="1"></option>
+					<option value="2"></option>
+					<option value="3"></option>
+					<option value="4"></option>
+					<option value="5"></option>
+				</select>
+				<span class="ql-formats">
+					<button class="ql-bold"></button>
+					<button class="ql-italic"></button>
+					<button class="ql-underline"></button>
+					<button class="ql-strike"></button>
+				</span>
+				<span class="ql-formats">
+					<select class="ql-color"></select>
+					<select class="ql-background"></select>
+				</span>
+				<span class="ql-formats">
+					<button class="ql-list" value="ordered"></button>
+					<button class="ql-list" value="bullet"></button>
+				</span>
+				<span class="ql-formats">
+					<button class="ql-link"></button>
+				</span>
+			</ToolbarContent>
+			<EditorContent>
+
+			</EditorContent>
+		</BlazoredTextEditor>
+
+		<MudSelect T="TaskStatusEnum" Label="Task Status" @bind-Value="task.TaskStatus" Class="my-3" Required="true">
+			@foreach (var status in Enum.GetValues<TaskStatusEnum>())
+			{
+				<MudSelectItem Value="status">@status</MudSelectItem>
+			}
+		</MudSelect>
+
+		<MudDatePicker @bind-Date="task.DueDate" Class="my-3" PickerVariant="PickerVariant.Dialog" Label="Due Date" HelperText="Select Due Date" DateFormat="dd/MM/yyyy" Required="true" />
+
+		<MudSelect T="long" Label="Projects" @bind-Value="task.ProjectId" Class="my-3" Required="true">
+			<MudSelectItem Value="0L" Disabled="true">-- Select a project --</MudSelectItem>
+			@foreach (var project in Projects)
+			{
+				<MudSelectItem Value="@project.Id">@project.Name</MudSelectItem>
+			}
+		</MudSelect>
+
+		<MudSelect T="long" Label="Assign To" @bind-Value="task.AssignedToId" Class="my-3" Required="true">
+			<MudSelectItem Value="0L" Disabled="true">-- Select a Member --</MudSelectItem>
+			@foreach (var employee in Employees)
+			{
+				<MudSelectItem Value="@employee.Id">@employee.Name</MudSelectItem>
+			}
+		</MudSelect>
+
+		<div class="row mt-2">
+			<div class="col-6">
+				<MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth=true OnClick="Save">Save</MudButton>
+			</div>
+			<div class="col-6">
+				<MudButton Variant="Variant.Filled" Color="Color.Secondary" FullWidth=true OnClick="Cancel">Cancel</MudButton>
+			</div>
+		</div>
+
+		@* @if (TaskId != 0)
+		{
+			<MudButton Color="Color.Error" OnClick="Delete">Delete</MudButton>
+		} *@
+	</MudForm>
+</MudPaper>
+
+@code {
+	[Parameter] public long? TaskId { get; set; }
+	[Parameter] public bool FromModal { get; set; } = false;
+	[Parameter] public EventCallback<bool> OnClose { get; set; }
+
+	private ProjectTaskDto task = new()
+		{
+			TaskStatus = TaskStatusEnum.Todo,
+			DueDate = DateTime.Today
+		};
+
+	[Inject]
+	private EmployeeService employeeService { get; set; }
+
+	[Inject]
+	private TaskService taskService { get; set; }
+
+	private BlazoredTextEditor richTextEditor;
+	private MudForm form;
+	private bool isValid;
+	private List<ProjectDto> Projects = new List<ProjectDto>();
+	private List<EmployeeDto> Employees = new List<EmployeeDto>();
+	private bool IsEditMode => TaskId.HasValue;
+	private bool isLoading = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await GetProjects();
+		await GetEmployees();
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (IsEditMode)
+		{
+			isLoading = true;
+			var existingTask = await taskService.GetByIdAsync(TaskId.Value);
+			if (existingTask != null)
+			{
+				task = existingTask;
+				await richTextEditor.LoadHTMLContent(task.Description);
+			}
+		}
+		isLoading = false;
+	}
+
+	async Task GetProjects()
+	{
+		Projects = await employeeService.GetAllProjects();
+	}
+
+	async Task GetEmployees()
+	{
+		Employees = await employeeService.GetAllEmployees();
+	}
+
+
+	private async Task Save()
+	{
+		await form.Validate();
+		if (form.Errors.Length == 0)
+		{
+			task.Description = await richTextEditor.GetHTML();
+			if (IsEditMode)
+			{
+				await taskService.UpdateAsync(TaskId.Value, task);
+			}
+			else
+			{
+				await taskService.CreateAsync(task);
+			}
+			HandleClose(true);
+		}
+	}
+
+	private void Cancel()
+	{
+		HandleClose(false);
+	}
+
+	private void HandleClose(bool fromSave)
+	{
+		if (FromModal)
+		{
+			OnClose.InvokeAsync(fromSave);
+		}
+		else
+		{
+			NavigationManager.NavigateTo("/projects");
+		}
+	}
+
+	private async Task Delete()
+	{
+		NavigationManager.NavigateTo("/tasks");
+	}
+}
+

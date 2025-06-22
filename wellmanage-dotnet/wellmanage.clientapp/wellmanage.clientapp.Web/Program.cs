@@ -26,6 +26,9 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IAppStorage, WebAppStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<AttendenceService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<TaskService>();
 // Add device-specific services used by the wellmanage.clientapp.Shared project
 builder.Services.AddSingleton<IFormFactor, FormFactor>();
 builder.Services.AddAuthentication(options =>
