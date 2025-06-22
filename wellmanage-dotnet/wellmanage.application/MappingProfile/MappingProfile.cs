@@ -9,6 +9,8 @@ namespace wellmanage.MappingProfile
         public MappingProfile() 
         {
             CreateMap<Attendance, AttendanceResponse>().ReverseMap();
+            CreateMap<User, UserInfo>().ReverseMap();
+            CreateMap<Employee, EmployeeDto>().ReverseMap();
             CreateMap<EmployeeSaveRequest, Employee>()
               .ForMember(dest => dest.Projects,
                   opt => opt.MapFrom(src => MapProjectIdsToProjects(src.Projects)))
@@ -26,7 +28,8 @@ namespace wellmanage.MappingProfile
 
             CreateMap<ProjectDto, Project>()
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Employees, opt => opt.Ignore()); 
+                .ForMember(dest => dest.Employees, opt => opt.Ignore());
+            CreateMap<ProjectTask, ProjectTaskDto>().ReverseMap();
         }
 
         private static List<Project> MapProjectIdsToProjects(List<long>? projectIds)

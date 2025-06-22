@@ -26,7 +26,7 @@ namespace wellmanage.hrm.client
         private List<EmployeeDto> members = new List<EmployeeDto>();
         private List<ProjectDto> projects = new List<ProjectDto>();
         EmployeeDto selectedEmployee = null;
-        EmployeeDto defaultItem = new EmployeeDto(null, "Select");
+        EmployeeDto defaultItem = new EmployeeDto(0, "Select");
         private UserInfo selectedUser;
 
         public EmployeeUpdateForm(UserInfo selectedUser)
@@ -216,7 +216,7 @@ namespace wellmanage.hrm.client
             {
                 if (item is EmployeeDto employee)
                 {
-                    selectedAssignies.Add(employee.Id.Value);
+                    selectedAssignies.Add(employee.Id);
                 }
             }
 

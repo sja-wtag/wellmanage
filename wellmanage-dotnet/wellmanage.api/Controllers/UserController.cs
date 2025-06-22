@@ -101,6 +101,19 @@ namespace wellmanage_dotnet.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [Authorize]
+        [HttpGet("{userId}/employee-details")]
+        public async Task<IActionResult> GetEmployeeDetails(long userId)
+        {
+            var employeeDto = await _userService.GetEmployeeDetails(userId);
+            if (employeeDto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(employeeDto);
+        }
     }
 }
 

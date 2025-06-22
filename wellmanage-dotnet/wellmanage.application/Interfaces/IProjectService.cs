@@ -12,6 +12,7 @@ namespace wellmanage.application.Interfaces
     {
         Task<Project> CreateProjectAsync(Project project);
         Task<Project> GetProjectByIdAsync(long id);
+        Task<List<Project>> GetProjectsByEmployeeIdAsync(long id);
         Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
         Task UpdateProjectAsync(Project project);
         Task DeleteProjectAsync(long id);
