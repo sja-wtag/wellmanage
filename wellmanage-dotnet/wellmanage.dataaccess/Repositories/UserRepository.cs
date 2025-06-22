@@ -142,5 +142,11 @@ namespace wellmanage.data.Repositories
 
             return attendancesDto;
         }
+
+        public async Task<Employee> GetEmployeeDetails(long userId)
+        {
+            var employee = await _dataContext.Employees.Include(emp=> emp.User).FirstOrDefaultAsync(item => item.UserId == userId);
+            return employee;
+        }
     }
 }

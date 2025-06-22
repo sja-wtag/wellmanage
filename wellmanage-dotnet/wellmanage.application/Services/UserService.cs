@@ -102,6 +102,12 @@ public class UserService : IUserService
         var attendanceSummary = _mapper.Map<List<AttendanceResponse>>(attendances);
         return attendanceSummary;
     }
+    public async Task<EmployeeDto> GetEmployeeDetails(long userId)
+    {
+        var employee = await _userRepository.GetEmployeeDetails(userId);
+        var employeeDto = _mapper.Map<EmployeeDto>(employee);
+        return employeeDto;
+    }
 
     public async Task<List<AttendanceDto>> GetAttendencesToday()
     {

@@ -12,4 +12,5 @@ public interface IUserService
     Task<bool> AuthenticateAdmin(string email, string password);
     Task<List<UserInfo>> GetUsersForOnboarding();
     Task<List<AttendanceDto>> GetAttendencesToday();
+    Task<EmployeeDto> GetEmployeeDetails(long userId);
 }

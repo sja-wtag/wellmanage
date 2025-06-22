@@ -11,7 +11,7 @@ namespace wellmanage.domain.Entity
 {
     public class ProjectTask
     {
-        [Key] public int TaskId { get; set; }
+        [Key] public long TaskId { get; set; }
 
         [MaxLength(50, ErrorMessage = "Title cannot be more than 50 characters.")]
         public string Title { get; set; }

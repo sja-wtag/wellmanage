@@ -38,6 +38,11 @@ namespace wellmanage.application.Services
             return await _projectRepository.GetAsync(id);
         }
 
+        public async Task<List<Project>> GetProjectsByEmployeeIdAsync(long id)
+        {
+          return await _projectRepository.GetProjectsByEmployeeIdAsync(id);
+        }
+
         public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
         {
             var projects = await _projectRepository.GetAllAsync();

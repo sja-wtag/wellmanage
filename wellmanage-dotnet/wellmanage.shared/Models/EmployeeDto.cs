@@ -14,13 +14,13 @@ namespace wellmanage.shared.Models
         public EmployeeDto() 
         {
         }
-        public EmployeeDto(int? id, string name)
+        public EmployeeDto(long id, string name)
         {
             Id = id;
             Name = name;
         }   
         [Browsable(false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string? Department { get; set; }
         public DateTime JoiningDate { get; set; }
@@ -34,7 +34,7 @@ namespace wellmanage.shared.Models
         [Browsable(false)]
         public UserInfo User { get; set; }
         public string Email => User?.Email;
-        public override string ToString() => Name ?? string.Empty;
+        public override string ToString() => Name ?? User?.FullName ?? string.Empty;
         public List<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
     }
 }

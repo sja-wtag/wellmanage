@@ -29,6 +29,9 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IAppStorage, WebAppStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 builder.Services.AddScoped<AttendenceService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<TaskService>();
 builder.Services.AddAuthorizationCore();
 
 await builder.Build().RunAsync();

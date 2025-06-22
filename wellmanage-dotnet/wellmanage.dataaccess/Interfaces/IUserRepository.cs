@@ -18,5 +18,6 @@ namespace wellmanage.data.Interfaces
         Task<List<Attendance>> GetAttendances(long userId);
         Task<List<UserInfo>> GetUsersWhoAreNotEmployee();
         Task<List<AttendanceDto>> GetAttendancesToday();
+        Task<Employee> GetEmployeeDetails(long userId);
     }
 }

@@ -9,5 +9,6 @@ namespace wellmanage.data.Interfaces
 {
     public interface IProjectRepository : IGenericRepository<Project>
     {
+        Task<List<Project>> GetProjectsByEmployeeIdAsync(long employeeId);
     }
 }
