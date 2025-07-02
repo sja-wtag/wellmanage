@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\wellmanage.dataaccess\wellmanage.dataaccess.csproj" />
+      <ProjectReference Include="..\wellmanage.dataaccess\wellmanage.infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

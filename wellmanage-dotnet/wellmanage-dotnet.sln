@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.domain", "wellma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.application", "wellmanage.application\wellmanage.application.csproj", "{54866B3D-8F83-4D66-905F-B40D55419FD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.dataaccess", "wellmanage.dataaccess\wellmanage.dataaccess.csproj", "{151C3297-2BA2-4412-8BBF-837051275785}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.infrastructure", "wellmanage.dataaccess\wellmanage.infrastructure.csproj", "{151C3297-2BA2-4412-8BBF-837051275785}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wellmanage.shared", "wellmanage.shared\wellmanage.shared.csproj", "{9FD55890-C0F4-47FF-9AEA-338A7A570A2A}"
 EndProject

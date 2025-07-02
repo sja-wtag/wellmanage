@@ -23,7 +23,7 @@ public class UserService : IUserService
 
     public async Task<bool> AuthenticateAdmin(string email, string password)
     {
-        bool isAuthenticated = false;
+        bool isHRAuthenticated = false;
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
@@ -31,9 +31,9 @@ public class UserService : IUserService
         }
         else
         {
-            isAuthenticated = await _userManager.CheckPasswordAsync(user, password);
+            isHRAuthenticated = await _userManager.CheckPasswordAsync(user, password) && await _userManager.IsInRoleAsync(user, "HR");
         }
-        return isAuthenticated;
+        return isHRAuthenticated;
     }
 
     public async Task<List<UserInfo>> GetUsersForOnboarding()

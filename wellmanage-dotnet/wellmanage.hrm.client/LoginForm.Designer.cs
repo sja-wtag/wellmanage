@@ -1,6 +1,6 @@
 ﻿namespace wellmanage.hrm.client
 {
-    partial class Form1
+    partial class LoginForm
     {
         private System.ComponentModel.IContainer components = null;
 

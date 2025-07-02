@@ -3,11 +3,11 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace wellmanage.hrm.client
 {
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
         private readonly IUserService _userService;
         private event Action<bool> OnAuthenticationEvent;
-        public Form1(IUserService userService)
+        public LoginForm(IUserService userService)
         {
             _userService = userService;
             InitializeComponent();

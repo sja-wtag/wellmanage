@@ -31,7 +31,7 @@ namespace wellmanage.hrm.client
                 .AddAuthenticationServices(configuration)
                 .AddEmailServices(configuration)
                 .AddOtherServicesWithRepositories(configuration)
-                .AddAutoMapper(typeof(Form1), typeof(EmployeeService))
+                .AddAutoMapper(typeof(LoginForm), typeof(EmployeeService))
                 .AddLogging()
                 .BuildServiceProvider();
 
@@ -46,7 +46,7 @@ namespace wellmanage.hrm.client
             // Run the WinForms application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HomeForm(userService));
+            Application.Run(new LoginForm(userService));
         }
     }
 }

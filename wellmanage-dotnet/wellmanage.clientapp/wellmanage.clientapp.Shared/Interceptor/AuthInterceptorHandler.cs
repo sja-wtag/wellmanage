@@ -20,17 +20,18 @@ namespace wellmanage.clientapp.Shared.Interceptor
         private readonly NavigationManager _navigation;
         private readonly JwtAuthStateProvider _authStateProvider;
 
-        public AuthorizationHandler(IAppStorage appStorage, AuthenticationStateProvider authStateProvider)
+        public AuthorizationHandler(IAppStorage appStorage, AuthenticationStateProvider authStateProvider, NavigationManager navigationManager)
         {
             _appStorage = appStorage;
             _authStateProvider = (JwtAuthStateProvider)authStateProvider;
+            _navigation = navigationManager;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
 
             var jsonState = await _appStorage.GetAsync("sessionState");
-            if(jsonState != null)
+            if (jsonState != null)
             {
                 var authUser = System.Text.Json.JsonSerializer.Deserialize<AuthenticatedUser>(jsonState);
                 var token = authUser.AuthenticationToken;
@@ -46,6 +47,7 @@ namespace wellmanage.clientapp.Shared.Interceptor
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
+
                 await _authStateProvider.MarkUserAsLoggedOut();
                 _navigation.NavigateTo("/login", true);
             }
